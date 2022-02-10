@@ -65,7 +65,10 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Login"
         component={LoginUI}
-        options={({ navigation }: RootTabScreenProps<'Login'>) => ({
+        options=
+        {
+          ({ navigation }: RootTabScreenProps<'Login'>) => (
+            {
           title: 'Login',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
@@ -82,7 +85,9 @@ function BottomTabNavigator() {
               />
             </Pressable>
           ),
-        })}
+        }
+       )
+      }
       />
       <BottomTab.Screen
         name="TabTwo"
