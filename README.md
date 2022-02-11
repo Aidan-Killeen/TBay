@@ -19,3 +19,5 @@ npm i
 
 # To run project
 node server.js
+
+# iraklis-test
