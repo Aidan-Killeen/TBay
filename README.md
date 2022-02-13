@@ -14,10 +14,8 @@ npm start
 # BACKEND
 cd back-end
 
-# OPTIONAL (Do this once, the first time you run)
+# (Do this once, the first time you run)
 npm i
 
 # To run project
-node server.js
-
-# iraklis-test
+npm start
