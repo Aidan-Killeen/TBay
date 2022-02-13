@@ -18,7 +18,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
@@ -30,33 +29,25 @@ router.get('/signup', (req, res) => {
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Signed in 
       var user = userCredential.user;
-      // ...
-      //create session token
-      return res.status(200).send('Hello World!');
-
+      return res.status(200).send('Sign up complete!');
     })
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ..
     });
 });
 
 router.get('/login', (req, res) => {
   let email = req.body["email"];
   let password = req.body.password; 
-  //Add email and password error handling here
-  console.log("HERE")
   firebase.auth().signInWithEmailAndPassword(email, password)
   .then((userCredential) => {
     // Signed in
     var user = userCredential.user;
     return user.getIdToken().then((idToken) => {
-      return res.status(200).send(JSON.stringify({ idToken })); //returns ID Token
+      return res.status(200).send(JSON.stringify({ idToken })); //return ID Token to client
     });
-    // ...
   })
   .catch((error) => {
     var errorCode = error.code;
@@ -74,37 +65,16 @@ router.get('/verify', (req, res) => {
       const uid = decodedToken.uid;
       console.log("verified")
       return res.status(200).send("Verified!");
-      // ...
     })
     .catch((error) => {
-      // Handle error
       console.log(error)
-      return res.status(200).send("Verified!");
+      return res.status(200).send("Token verification failed!");
     });
-});
-
-router.post("/sessionLogin", (req, res) => {
-  const idToken = req.body.idToken.toString();
-  const expiresIn = 60 * 60 * 24 * 5 * 1000;
-  admin
-    .auth()
-    .createSessionCookie(idToken, { expiresIn })
-    .then(
-      (sessionCookie) => {
-        const options = { maxAge: expiresIn, httpOnly: true };
-        res.cookie("session", sessionCookie, options);
-        res.end(JSON.stringify({ status: "success" }));
-      },
-      (error) => {
-        res.status(401).send("UNAUTHORIZED REQUEST!");
-      }
-    );
 });
 
 router.get('/logout', (req, res) => {
   let email = req.body["email"];
   let password = req.body.password; 
-  //Add email and password error handling here
 
   firebase.auth().signOut().then(() => {
     // Sign-out successful.
