@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
+import SignupImg from "../Content/Images/Signup.svg";
 
 function Signup() {
   const handleSubmit = (event) => {
@@ -28,7 +29,7 @@ function Signup() {
         md={7}
         sx={{
           backgroundImage:
-            "url('https://iraklis.me/wp-content/uploads/2022/01/hello_hero.webp')",
+            `url(${SignupImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center",

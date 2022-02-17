@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
+import LoginImg from "../Content/Images/Login.svg";
 
 function Login() {
   const handleSubmit = (event) => {
@@ -28,7 +29,7 @@ function Login() {
         md={7}
         sx={{
           backgroundImage:
-            "url('https://d1ctrvvfkbyl4b.cloudfront.net/blog/yo@2x.png')",
+            `url(${LoginImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center",
