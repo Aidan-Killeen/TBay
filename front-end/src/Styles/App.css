@@ -61,3 +61,40 @@ body {
 .test {
   font-size: 600 !important;
 }
+
+.productCard {
+  border-radius: 20px !important;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+}
+.productCard:hover {
+  border-radius: 20px !important;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+}
+.productImage {
+  border-radius: 20px !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 0px solid !important;
+}
+
+.productTitle {
+  font-size: 2em !important;
+  color: black !important;
+}
+
+.productPrice {
+  font-size: 2.5em !important;
+  color: black !important;
+}
+
+.productOwnerInfo {
+  font-size: 1.2em !important;
+  color: #c4c4c4 !important;
+  border: none !important;
+}
+
+.productInfoText {
+  font-weight: 500 !important;
+}

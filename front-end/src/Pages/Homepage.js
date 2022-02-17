@@ -1,7 +1,13 @@
-import React from 'react';
- 
-function Homepage(){
-    return <h1>This is the homepage screen!</h1>
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Product from "../component/ProductCard";
+
+function Homepage() {
+  return (
+    <Grid>
+      <Product />
+    </Grid>
+  );
 }
- 
+
 export default Homepage;
