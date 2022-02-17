@@ -19,6 +19,31 @@ function Signup() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    //handle  & password requirements
+    if(!data.get("email").toString().includes('@')){
+      console.log("No @ provided in email.")
+      return;
+    }
+    //Check are passwords equal
+    if(data.get("password").toString().length<5){
+      console.log("Password must be atleast 5 characters long.")
+      return;
+    }
+    
+    try{
+      fetch('http://localhost:3001/users/signup?email='+data.get("email")+'&password='+data.get("password"))
+      .then(res => res.json())
+      .then((result) => {
+        if(result==false) console.log("Sign up failed!");
+        else {
+          console.log("Successfully signed up!")
+          //Route user to log in (or log user in manually and route them to homepage)
+        }
+      });
+    }
+    catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
   };
   return (
     <Grid container component="main" sx={{ height: "90vh" }}>

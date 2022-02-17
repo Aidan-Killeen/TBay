@@ -19,6 +19,31 @@ function Login() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    //handle email & password requirements
+    if(!data.get("email").toString().includes('@')){
+      console.log("No @ provided in email.")
+      return;
+    }
+    if(data.get("password").toString().length<5){
+      console.log("Password must be atleast 5 characters long.")
+      return;
+    }
+    
+    try{
+      fetch('http://localhost:3001/users/login?email='+data.get("email")+'&password='+data.get("password"))
+      .then(res => res.json())
+      .then((result) => {
+        if(result==false) console.log("Login Failed!");
+        else {
+          localStorage.setItem('idToken', result.idToken)
+          console.log("Successfully logged in! idToken: ", localStorage.getItem('idToken'))
+        }
+      });
+    }
+    catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
   };
   return (
     <Grid container component="main" sx={{ height: "90vh" }}>
