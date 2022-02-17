@@ -28,7 +28,7 @@ function Login() {
         md={7}
         sx={{
           backgroundImage:
-            "url('https://iraklis.me/wp-content/uploads/2022/01/hello_hero.webp')",
+            "url('https://d1ctrvvfkbyl4b.cloudfront.net/blog/yo@2x.png')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center",
