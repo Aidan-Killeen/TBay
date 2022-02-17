@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+* {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.App {
+  text-align: center;
+}
+
+.buttonMain {
+  padding: 1em !important;
+  background-color: #3d6ae6 !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 1em !important;
+  text-transform: none !important;
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(61, 106, 230, 0.6) !important;
+  box-shadow: 0px 5px 10px 0px rgba(61, 106, 230, 0.6) !important;
+  transition: 0.3s !important;
+}
+
+.buttonMain:hover {
+  -webkit-box-shadow: 0px 5px 20px 0px rgba(61, 106, 230, 0.6) !important;
+  box-shadow: 0px 5px 20px 0px rgba(61, 106, 230, 0.6) !important;
+}
+
+.buttonGoogle {
+  padding: 1em !important;
+  background-color: #3d6ae600 !important;
+  color: rgb(69, 69, 69) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgb(203, 203, 203) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  transition: 0.3s !important;
+}
+
+.googleLogo {
+  margin-right: 1em !important;
+}
+
+.linkMain {
+  text-decoration: none !important;
+  color: #3d6ae6 !important;
+  font-weight: 600 !important;
+}
+
+.textPrimary {
+  font-size: 3em !important;
+  font-weight: 600 !important;
+}
+
+.test {
+  font-size: 600 !important;
+}

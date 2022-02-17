@@ -1,14 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from 'react-router-dom';
-import Homepage from './component/Homepage';
-import Login from './component/Login';
-import Signup from './component/Signup';
+import logo from "./logo.svg";
+import "./Styles/App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Homepage from "./Pages/Homepage";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+
+import NavBar from "./component/NavBar";
 
 function App() {
   return (
@@ -26,9 +23,9 @@ function App() {
           </li>
         </ul>
         <Routes>
-          <Route exact path='/' element={< Homepage />}></Route>
-          <Route exact path='/login' element={< Login />}></Route>
-          <Route exact path='/signup' element={< Signup />}></Route>
+          <Route exact path="/" element={<Homepage />}></Route>
+          <Route exact path="/login" element={<Login />}></Route>
+          <Route exact path="/signup" element={<Signup />}></Route>
         </Routes>
       </div>
     </Router>
