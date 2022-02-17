@@ -58,19 +58,16 @@ body {
   font-weight: 600 !important;
 }
 
-.test {
-  font-size: 600 !important;
-}
-
 .productCard {
   border-radius: 20px !important;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+  max-width: 80% !important;
 }
 .productCard:hover {
   border-radius: 20px !important;
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2) !important;
 }
 .productImage {
   border-radius: 20px !important;
@@ -80,21 +77,49 @@ body {
 }
 
 .productTitle {
-  font-size: 2em !important;
+  font-size: 1.5em !important;
   color: black !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-align: left !important;
+  width: 100% !important;
 }
 
 .productPrice {
-  font-size: 2.5em !important;
+  font-size: 1.8em !important;
   color: black !important;
 }
 
 .productOwnerInfo {
-  font-size: 1.2em !important;
+  font-size: 1em !important;
   color: #c4c4c4 !important;
   border: none !important;
 }
 
 .productInfoText {
   font-weight: 500 !important;
+}
+
+.searchForm {
+  background-color: #dedede !important;
+  border: 0px !important;
+  border-radius: 10px !important;
+}
+
+.searchFormText {
+  font-size: 0.8em !important;
+  color: #717171 !important;
+}
+
+.typographyCategories {
+  font-weight: 600 !important;
+  font-size: 2rem !important;
+}
+
+.typographyCategoriesButton {
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  text-decoration: none !important;
+  color: #c4c4c4 !important;
 }

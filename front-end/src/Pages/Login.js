@@ -21,27 +21,34 @@ function Login() {
     });
 
     //handle email & password requirements
-    if(!data.get("email").toString().includes('@')){
-      console.log("No @ provided in email.")
+    if (!data.get("email").toString().includes("@")) {
+      console.log("No @ provided in email.");
       return;
     }
-    if(data.get("password").toString().length<5){
-      console.log("Password must be atleast 5 characters long.")
+    if (data.get("password").toString().length < 5) {
+      console.log("Password must be atleast 5 characters long.");
       return;
     }
-    
-    try{
-      fetch('http://localhost:3001/users/login?email='+data.get("email")+'&password='+data.get("password"))
-      .then(res => res.json())
-      .then((result) => {
-        if(result==false) console.log("Login Failed!");
-        else {
-          localStorage.setItem('idToken', result.idToken)
-          console.log("Successfully logged in! idToken: ", localStorage.getItem('idToken'))
-        }
-      });
-    }
-    catch (e) {
+
+    try {
+      fetch(
+        "http://localhost:3001/users/login?email=" +
+          data.get("email") +
+          "&password=" +
+          data.get("password")
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          if (result === false) console.log("Login Failed!");
+          else {
+            localStorage.setItem("idToken", result.idToken);
+            console.log(
+              "Successfully logged in! idToken: ",
+              localStorage.getItem("idToken")
+            );
+          }
+        });
+    } catch (e) {
       console.log("Error logging in: ", e.message);
     }
   };
@@ -53,8 +60,7 @@ function Login() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage:
-            `url(${LoginImg})`,
+          backgroundImage: `url(${LoginImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center",
@@ -63,8 +69,8 @@ function Login() {
       <Grid item xs={12} sm={8} md={5} component={Paper} square>
         <Box
           sx={{
-            my: 8,
-            mx: 4,
+            my: "2em",
+            mx: "2em",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",

@@ -20,28 +20,32 @@ function Signup() {
       password: data.get("password"),
     });
     //handle  & password requirements
-    if(!data.get("email").toString().includes('@')){
-      console.log("No @ provided in email.")
+    if (!data.get("email").toString().includes("@")) {
+      console.log("No @ provided in email.");
       return;
     }
     //Check are passwords equal
-    if(data.get("password").toString().length<5){
-      console.log("Password must be atleast 5 characters long.")
+    if (data.get("password").toString().length < 5) {
+      console.log("Password must be atleast 5 characters long.");
       return;
     }
-    
-    try{
-      fetch('http://localhost:3001/users/signup?email='+data.get("email")+'&password='+data.get("password"))
-      .then(res => res.json())
-      .then((result) => {
-        if(result==false) console.log("Sign up failed!");
-        else {
-          console.log("Successfully signed up!")
-          //Route user to log in (or log user in manually and route them to homepage)
-        }
-      });
-    }
-    catch (e) {
+
+    try {
+      fetch(
+        "http://localhost:3001/users/signup?email=" +
+          data.get("email") +
+          "&password=" +
+          data.get("password")
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          if (result === false) console.log("Sign up failed!");
+          else {
+            console.log("Successfully signed up!");
+            //Route user to log in (or log user in manually and route them to homepage)
+          }
+        });
+    } catch (e) {
       console.log("Error logging in: ", e.message);
     }
   };
@@ -53,8 +57,7 @@ function Signup() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage:
-            `url(${SignupImg})`,
+          backgroundImage: `url(${SignupImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center",
@@ -63,8 +66,8 @@ function Signup() {
       <Grid item xs={12} sm={8} md={5} component={Paper} square>
         <Box
           sx={{
-            my: 8,
-            mx: 4,
+            my: "2em",
+            mx: "2em",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -84,7 +87,7 @@ function Signup() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mb: "1em", mb: "1em" }}
+                sx={{ mb: "1em" }}
               >
                 <GoogleLogo className="googleLogo" /> Continue with Google
               </Button>
