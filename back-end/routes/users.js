@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var firebase = require("firebase");
 const admin = require('firebase-admin')
+const cors = require('cors');
 //Address of private key
 var serviceAccount = require("./../../../../tbay-c2e0d-firebase-adminsdk-ouq9q-f91bf19d0d.json");
 const firebaseConfig = {
@@ -18,29 +19,30 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', cors(), function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/signup', (req, res) => {
-  let email = req.body["email"];
-  let password = req.body.password; 
-  //Add email and password error handling here
-
+router.get('/signup', cors(), (req, res) => {
+  let email = req.query.email;
+  let password = req.query.password; 
+  console.log(email, password)
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       var user = userCredential.user;
-      return res.status(200).send('Sign up complete!');
+      console.log("Created user:", user)
+      return res.status(200).send(JSON.stringify('Sign up complete!'));
     })
     .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      console.log("Signup error!", error)
+      return res.status(200).send(JSON.stringify(false)); //return false
     });
 });
 
-router.get('/login', (req, res) => {
-  let email = req.body["email"];
-  let password = req.body.password; 
+router.get('/login', cors(), function(req, res) {
+  let email = req.query.email;
+  let password = req.query.password; 
+
   firebase.auth().signInWithEmailAndPassword(email, password)
   .then((userCredential) => {
     // Signed in
@@ -50,12 +52,12 @@ router.get('/login', (req, res) => {
     });
   })
   .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
+    console.log("Error while signing in!", error)
+    return res.status(200).send(JSON.stringify(false)); //return false
   });
 });
 
-router.get('/verify', (req, res) => {
+router.get('/verify', cors(), (req, res) => {
   let idToken = req.body["idToken"];
   console.log("verify")
   // idToken comes from the client app
@@ -72,7 +74,7 @@ router.get('/verify', (req, res) => {
     });
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', cors(), (req, res) => {
   let email = req.body["email"];
   let password = req.body.password; 
 

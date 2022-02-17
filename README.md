@@ -1,9 +1,6 @@
 # TBay
-# FRONTEND
+# FRONTEND PORT: 3000
 cd front-end
-
-# OPTIONAL (May need to install expo to run, try without first)
-npm install -g expo-cli
 
 # OPTIONAL (May need to install dependencies, try without first)
 npm i
@@ -11,7 +8,7 @@ npm i
 # To run project
 npm start
 
-# BACKEND
+# BACKEND PORT: 3001
 cd back-end
 
 # (Do this once, the first time you run)
