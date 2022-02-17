@@ -19,7 +19,7 @@ export default function ImgMediaCard() {
           className="productImage"
           component="img"
           height="300px"
-          image="..Content/Images/test.png"
+          image = "test.png"
           alt="green iguana"
         />
         <CardContent>
