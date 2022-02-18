@@ -123,3 +123,7 @@ body {
   text-decoration: none !important;
   color: #c4c4c4 !important;
 }
+
+.welcomeImg {
+  width: 50vw !important;
+}
