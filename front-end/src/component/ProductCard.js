@@ -17,7 +17,7 @@ export default function ImgMediaCard() {
       <CardMedia
         className="productImage"
         component="img"
-        height="300px"
+        height="50%"
         image="test.jpg"
         alt="green iguana"
       />

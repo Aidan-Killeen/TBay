@@ -50,17 +50,19 @@ function Signup() {
     }
   };
   return (
-    <Grid container component="main" sx={{ height: "90vh" }}>
-      <Grid item xs={12} sm={12} md={6}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      {/*  
+     <Grid item xs={12} sm={12} md={6}>
         <Box>
           <img className="welcomeImg" src={`${SignupImg}`} />
         </Box>
       </Grid>
+  */}
       <Grid item xs={12} sm={12} md={6} square>
         <Box
           sx={{
             my: "1em",
-            mx: "2em",
+            mx: "1em",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -74,7 +76,7 @@ function Signup() {
             onSubmit={handleSubmit}
             sx={{ mt: "1rem" }}
           >
-            <Grid item sx={{ mb: "1rem" }}>
+            <Grid item>
               <Button
                 className="buttonGoogle"
                 type="submit"
@@ -127,9 +129,9 @@ function Signup() {
               Create account
             </Button>
             <Grid container>
-              <Grid item xs={12} sx={{ mt: "1rem" }}>
+              <Grid item xs={12} sx={{ mt: "1em", mb: "5em" }}>
                 {"Already have an account? "}
-                <Link className="linkMain" to="/login" variant="body2">
+                <Link className="linkMain" to="/login">
                   {"Login"}
                 </Link>
               </Grid>

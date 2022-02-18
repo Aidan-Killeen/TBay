@@ -16,8 +16,9 @@ function Homepage() {
       <Grid container component="main">
         <Box
           sx={{
-            my: "2em",
-            mx: "2em",
+            mt: "2em",
+            mb: "5em",
+            mx: "1em",
           }}
         >
           <Grid item xs={12}>
