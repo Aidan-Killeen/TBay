@@ -62,7 +62,6 @@ body {
   border-radius: 20px !important;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1) !important;
-  max-width: 90% !important;
 }
 .productCard:hover {
   border-radius: 20px !important;
@@ -114,7 +113,7 @@ body {
 
 .typographyCategories {
   font-weight: 600 !important;
-  font-size: 2rem !important;
+  font-size: 1.5rem !important;
 }
 
 .typographyCategoriesButton {

@@ -61,6 +61,25 @@ function Homepage() {
             </Stack>
 
             <Product />
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+              spacing={2}
+              sx={{
+                mt: "2em",
+                mb: "1em",
+              }}
+            >
+              <Typography className="typographyCategories">
+                Electronics Store
+              </Typography>
+              <Link className="typographyCategoriesButton" to="/#">
+                {"View all"}
+              </Link>
+            </Stack>
+
+            <Product />
           </Grid>
         </Box>
       </Grid>
