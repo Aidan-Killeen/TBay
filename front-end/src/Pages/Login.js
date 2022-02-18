@@ -80,7 +80,6 @@ function Login() {
               label="Email"
               name="email"
               autoComplete="email"
-              autoFocus
               variant="standard"
             />
             <TextField
