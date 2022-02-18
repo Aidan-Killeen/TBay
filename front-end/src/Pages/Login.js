@@ -53,17 +53,18 @@ function Login() {
     }
   };
   return (
-    <Grid container component="main" sx={{ height: "90vh" }}>
-      <Grid item xs={12} sm={12} md={6}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      {/* <Grid item xs={12} sm={12} md={6}>
         <Box>
           <img className="welcomeImg" src={`${LoginImg}`} />
         </Box>
       </Grid>
+    */}
       <Grid item xs={12} sm={12} md={6} square>
         <Box
           sx={{
             my: "1em",
-            mx: "2em",
+            mx: "1em",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -117,7 +118,7 @@ function Login() {
               </Grid>
               <Grid item xs={12} sx={{ mt: "1rem" }}>
                 {"New to Tbay? "}
-                <Link className="linkMain" to="/signup" variant="body2">
+                <Link className="linkMain" to="/signup">
                   {"Register"}
                 </Link>
               </Grid>
