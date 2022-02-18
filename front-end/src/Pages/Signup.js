@@ -51,22 +51,15 @@ function Signup() {
   };
   return (
     <Grid container component="main" sx={{ height: "90vh" }}>
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: `url(${SignupImg})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} square>
+      <Grid item xs={12} sm={12} md={6}>
+        <Box>
+          <img className="welcomeImg" src={`${SignupImg}`} />
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={12} md={6} square>
         <Box
           sx={{
-            my: "2em",
+            my: "1em",
             mx: "2em",
             display: "flex",
             flexDirection: "column",
