@@ -12,12 +12,14 @@ const firebaseConfig = {
   storageBucket: "tbay-c2e0d.appspot.com",
   messagingSenderId: "633870967402",
   appId: "1:633870967402:web:bea053d2e77afd0915e013",
-  measurementId: "G-WJNMPW4VJZ"
+  measurementId: "G-WJNMPW4VJZ",
+  databaseURL: "https://tbay-c2e0d-default-rtdb.europe-west1.firebasedatabase.app"
 };
 firebase.initializeApp(firebaseConfig);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
+var database = firebase.database();
 
 router.get('/', cors(), function(req, res, next) {
   res.send('respond with a resource');
@@ -84,5 +86,19 @@ router.get('/logout', cors(), (req, res) => {
     // An error happened.
   });
 });
+
+// Get all products
+router.get('/product', cors(), function(req, res) {
+  try{
+    firebase.database().ref('/products').once('value').then((snapshot) => {
+      const data = snapshot.val();
+      return res.status(200).send(data);
+    });
+  } catch(error){
+    console.log("Error retrieving data!", error)
+    return res.status(200).send(JSON.stringify(false));
+  };
+});
+
 
 module.exports = router;
