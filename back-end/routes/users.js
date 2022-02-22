@@ -50,7 +50,7 @@ router.get('/login', cors(), function(req, res) {
     // Signed in
     var user = userCredential.user;
     return user.getIdToken().then((idToken) => {
-      return res.status(200).send(JSON.stringify({ idToken })); //return ID Token to client
+      return res.status(200).send(JSON.stringify({ idToken, userID: user.uid })); //return ID Token to client
     });
   })
   .catch((error) => {
@@ -118,7 +118,7 @@ router.post('/post-product', cors(), function(req, res) {
   updates['/products/' + newPostKey] = postData;
   try{
     firebase.database().ref().update(updates).then(() => {
-      return res.status(200).send("Post Successful, post ID = ", newPostKey);
+      return res.status(200).send(JSON.stringify("Post Successful, post ID = "+newPostKey));
     });
   } catch(error){
     console.log("Error retrieving data!", error)
