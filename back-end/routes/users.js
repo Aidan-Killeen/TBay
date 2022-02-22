@@ -100,5 +100,52 @@ router.get('/product', cors(), function(req, res) {
   };
 });
 
+// Create a product
+router.post('/post-product', cors(), function(req, res) {
+  var postData = {
+    category: req.body.category,
+    description: req.body.description,
+    image: req.body.image,
+    price: req.body.price,
+    sellerUserID: req.body.sellerUserID,
+    title: req.body.title
+  };
+  
+  // Get a key for a new Post.
+  var newPostKey = firebase.database().ref().child('products').push().key;
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  var updates = {};
+  updates['/products/' + newPostKey] = postData;
+  try{
+    firebase.database().ref().update(updates).then(() => {
+      return res.status(200).send("Post Successful, post ID = ", newPostKey);
+    });
+  } catch(error){
+    console.log("Error retrieving data!", error)
+    return res.status(200).send(JSON.stringify(false));
+  };
+});
+
+// Update a product
+router.post('/update-product', cors(), function(req, res) {
+  var productKey = req.body.productKey;
+
+  var postData = {
+    category: req.body.category,
+    description: req.body.description,
+    image: req.body.image,
+    price: req.body.price,
+    sellerUserID: req.body.sellerUserID,
+    title: req.body.title
+  };
+  try{
+    firebase.database().ref('products/' + productKey).update(postData).then(() => {
+      return res.status(200).send("Update Successful!");
+    });
+  } catch(error){
+    console.log("Error retrieving data!", error)
+    return res.status(200).send(JSON.stringify(false));
+  };
+});
 
 module.exports = router;
