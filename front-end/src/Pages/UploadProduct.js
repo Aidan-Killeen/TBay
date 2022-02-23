@@ -24,6 +24,50 @@ const Input = styled("input")({
 });
 
 function UploadProduct() {
+  var postedFlag = false;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    //handle product requirements (required fields)
+    if (data.get("productTitle").toString().length < 2) {
+      console.log("Title must be more than two characters in length.");
+      return;
+    }
+
+    try {
+      var postData = {
+        //Hardcoding category, not sure how to retrieve from autocomplete
+        //category: data.get("category"),
+        category: "Test category",
+        description: data.get("productDesc"),
+        //Hardcoding image, not sure how we will store them yet
+        //image: data.get("image"),
+        image: "Test image",
+        price: data.get("productPrice"),
+        //Hardcoding this until everyone is using the login
+        //sellerUserID: data.get(localStorage.getItem("userID")),
+        sellerUserID: 2,
+        title: data.get("productTitle"),
+      };
+      
+      // Simple PUT request with a JSON body using fetch
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      };
+      fetch("http://localhost:3001/users/post-product", requestOptions)
+          .then(response => response.json())
+          .then((data) => {
+            console.log("Created product with ID = " + data); 
+            postedFlag = true;
+          });
+    } catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
+  };
+
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       {/* <Grid item xs={12} sm={12} md={6}>
@@ -46,7 +90,7 @@ function UploadProduct() {
           <Typography className="sellProductTextPrimary" gutterBottom>
             Sell your item
           </Typography>
-          <Box component="form" noValidate>
+          <Box component="form" noValidate onSubmit={handleSubmit}>
             <label htmlFor="contained-button-file">
               <Input
                 accept="image/*"

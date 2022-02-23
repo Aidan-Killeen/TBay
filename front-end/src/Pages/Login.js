@@ -42,10 +42,12 @@ function Login() {
           if (result === false) console.log("Login Failed!");
           else {
             localStorage.setItem("idToken", result.idToken);
+            localStorage.setItem("userID", result.userID);
             console.log(
               "Successfully logged in! idToken: ",
               localStorage.getItem("idToken")
             );
+            console.log("User ID = ", localStorage.getItem("userID"))
           }
         });
     } catch (e) {
