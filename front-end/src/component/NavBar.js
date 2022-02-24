@@ -10,34 +10,70 @@ import { Link } from "react-router-dom";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState(0);
+  
+  //console.log("User ID = ", localStorage.getItem("userID"));
+  //console.log("User token = ", localStorage.getItem("idToken"));
 
-  return (
-    <Box sx={{ width: "100%" }}>
-      <BottomNavigation
-        className="bottomNav"
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction component={Link} to="/" icon={<HomeIcon />} />
-        <BottomNavigationAction
-          component={Link}
-          to="/login"
-          icon={<LoginIcon />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/signup"
-          icon={<LogoutIcon />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/upload"
-          icon={<CreateIcon />}
-        />
-      </BottomNavigation>
-    </Box>
-  );
+
+  
+
+  if(localStorage.getItem("idToken") == null)
+    return (
+      <Box sx={{ width: "100%" }}>
+        <BottomNavigation
+          className="bottomNav"
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction
+            component={Link}
+            to="/" 
+            icon={<HomeIcon />} 
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/login"
+            icon={<LoginIcon />}
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/signup"
+            icon={<LogoutIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+    );
+  else
+    return (
+      <Box sx={{ width: "100%" }}>
+        <BottomNavigation
+          className="bottomNav"
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction
+            component={Link}
+            to="/" 
+            icon={<HomeIcon />} 
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/upload"
+            icon={<CreateIcon />}
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/logout"
+            icon={<LogoutIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+    );
 }
+
