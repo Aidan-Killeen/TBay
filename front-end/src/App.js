@@ -5,7 +5,7 @@ import Homepage from "./Pages/Homepage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import UploadProduct from "./Pages/UploadProduct";
-import Logout from "./Pages/Logout";
+import Product from "./Pages/Product";
 
 import NavBar from "./component/NavBar";
 
@@ -18,7 +18,7 @@ function App() {
           <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="/signup" element={<Signup />}></Route>
           <Route exact path="/upload" element={<UploadProduct />}></Route>
-          <Route exact path="/logout" element={<Logout />}></Route>
+          <Route exact path="/product" element={<Product />}></Route>
         </Routes>
 
         <NavBar />
