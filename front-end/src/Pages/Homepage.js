@@ -11,24 +11,6 @@ import { Link } from "react-router-dom";
 import Product from "../component/ProductCard";
 
 function Homepage() {
-  try {
-    fetch(
-      "http://localhost:3001/users/product"
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        if (result === false) console.log("Backend retrieval failed!");
-        else {
-          console.log(
-            "Retrieved products:",
-            result
-          );
-        }
-      });
-  } catch (e) {
-    console.log("Error retrieving result: ", e.message);
-  }
-
   return (
     <div>
       <Grid container component="main">
@@ -96,7 +78,6 @@ function Homepage() {
                 {"View all"}
               </Link>
             </Stack>
-
             <Product />
           </Grid>
         </Box>
