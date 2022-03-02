@@ -7,7 +7,19 @@ import { useEffect } from 'react'
 function Logout() {
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    try {
+        fetch(
+          "http://localhost:3001/users/logout"
+        )
+          .then((res) => res.json())
+          .then((result) => {
+            if (result === false) console.log("Logout Failed!");
+          });
+          
+      } catch (e) {
+        console.log("Error logging out: ", e.message);
+      }
+      useEffect(()=>{
         localStorage.removeItem("idToken");
         localStorage.removeItem("userID");
         navigate("/");
@@ -17,6 +29,8 @@ function Logout() {
         window.location.reload(false);
         
     }, [])
+
+    
     
     
     return(
