@@ -9,8 +9,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
 import SignupImg from "../Content/Images/Signup.svg";
+import Alert from "@material-ui/lab/Alert";
+import { useAlert } from "../component/useAlert";
 
 function Signup() {
+  const [AlertMessage, isVisible, getProps] = useAlert();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -18,15 +21,24 @@ function Signup() {
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+      confirmPassword: data.get("confirmPassword"),
     });
-    //handle  & password requirements
+    // Check if no @ in email
     if (!data.get("email").toString().includes("@")) {
       console.log("No @ provided in email.");
+      getProps({ variant: "error", message: "Error: No @ provided in email." })
       return;
     }
-    //Check are passwords equal
+    // Check is password long enough
     if (data.get("password").toString().length < 5) {
       console.log("Password must be atleast 5 characters long.");
+      getProps({ variant: "error", message: "Error: Password must be at least 5 characters long." })
+      return;
+    }
+    // Check passwords are equal
+    if (data.get("password").toString() != data.get("confirmPassword").toString()) {
+      console.log("Passwords don't match.");
+      getProps({ variant: "error", message: "Error: Passwords don't match." })
       return;
     }
 
@@ -39,7 +51,8 @@ function Signup() {
       )
         .then((res) => res.json())
         .then((result) => {
-          if (result === false) console.log("Sign up failed!");
+          if (result === false){ getProps({ variant: "error", message: "Error: invalid email address." })
+            console.log("Sign up failed!");}
           else {
             console.log("Successfully signed up!");
             //Route user to log in (or log user in manually and route them to homepage)
@@ -47,6 +60,7 @@ function Signup() {
         });
     } catch (e) {
       console.log("Error logging in: ", e.message);
+      getProps({ variant: "error", message: "Error: please try again." })
     }
   };
   return (
@@ -112,10 +126,10 @@ function Signup() {
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="confirmPassword"
               label="Confirm password"
               type="password"
-              id="password"
+              id="confirmPassword"
               variant="standard"
             />
             <Button
@@ -127,6 +141,7 @@ function Signup() {
             >
               Create account
             </Button>
+            {isVisible ? <AlertMessage /> : ""}
             <Grid container>
               <Grid item xs={12} sx={{ mt: "1em", mb: "5em" }}>
                 {"Already have an account? "}
