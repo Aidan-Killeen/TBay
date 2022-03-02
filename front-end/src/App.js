@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import UploadProduct from "./Pages/UploadProduct";
 import Product from "./Pages/Product";
+import Logout from "./Pages/Logout";
 
 import NavBar from "./component/NavBar";
 
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />}></Route>
           <Route exact path="/upload" element={<UploadProduct />}></Route>
           <Route exact path="/product" element={<Product />}></Route>
+          <Route exact path="/logout" element={<Logout />}></Route>
         </Routes>
 
         <NavBar />

@@ -47,7 +47,8 @@ function Login() {
               "Successfully logged in! idToken: ",
               localStorage.getItem("idToken")
             );
-            console.log("User ID = ", localStorage.getItem("userID"))
+            console.log("User ID = ", localStorage.getItem("userID"));
+            window.location.reload(false);
           }
         });
     } catch (e) {

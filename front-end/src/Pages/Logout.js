@@ -14,6 +14,7 @@ function Logout() {
         //const [value, setValue] = React.useState(0);
         //this.setState();
         //needs to update state of navbar
+        window.location.reload(false);
         
     }, [])
     
