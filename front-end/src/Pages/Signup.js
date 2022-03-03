@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
 import SignupImg from "../Content/Images/Signup.svg";
-import Alert from "@mui/lab/Alert";
 import { useAlert } from "../component/useAlert";
 
 function Signup() {
