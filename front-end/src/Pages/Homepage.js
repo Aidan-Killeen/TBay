@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Product from "../component/ProductCard";
 
 function Homepage() {
+  var items = []
   try {
     fetch(
       "http://localhost:3001/users/product"
@@ -23,9 +24,37 @@ function Homepage() {
             "Retrieved products:",
             result
           );
+          for (let index = 0; index<result.length; index++){
+
+            items.push(<div>
+                <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="flex-start"
+                spacing={2}
+                sx={{
+                  mt: "2em",
+                  mb: "1em",
+                }}
+              >
+                <Typography className="typographyCategories">
+                  Electronics Store test
+                </Typography>
+                <Link className="typographyCategoriesButton" to="/#">
+                  {"View all"}
+                </Link>
+              </Stack>
+
+              <Product />
+            </div>
+            )
+          }
+          console.log(items)
         }
       });
-  } catch (e) {
+  }
+
+  catch (e) {
     console.log("Error retrieving result: ", e.message);
   }
 
@@ -61,43 +90,7 @@ function Homepage() {
             </Box>
           </Grid>
           <Grid item xs={12} md={12}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              spacing={2}
-              sx={{
-                mb: "1em",
-              }}
-            >
-              <Typography className="typographyCategories">
-                Trending now
-              </Typography>
-              <Link className="typographyCategoriesButton" to="/#">
-                {"View all"}
-              </Link>
-            </Stack>
-
-            <Product />
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              spacing={2}
-              sx={{
-                mt: "2em",
-                mb: "1em",
-              }}
-            >
-              <Typography className="typographyCategories">
-                Electronics Store
-              </Typography>
-              <Link className="typographyCategoriesButton" to="/#">
-                {"View all"}
-              </Link>
-            </Stack>
-
-            <Product />
+            {items}
           </Grid>
         </Box>
       </Grid>
