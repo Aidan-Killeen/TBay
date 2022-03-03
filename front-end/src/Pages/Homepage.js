@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
@@ -11,50 +11,54 @@ import { Link } from "react-router-dom";
 import Product from "../component/ProductCard";
 
 function Homepage() {
-  var items = []
+  var items = [];
+  const [items2, setItems] = useState([
+    {
+      category: "",
+      description: "",
+      image: "",
+      price: "",
+      sellerUserID: "",
+      title: "",
+    },
+  ]);
   try {
-    fetch(
-      "http://localhost:3001/users/product"
-    )
+    fetch("http://localhost:3001/users/product")
       .then((res) => res.json())
       .then((result) => {
         if (result === false) console.log("Backend retrieval failed!");
         else {
-          console.log(
-            "Retrieved products:",
-            result
-          );
-          for (let index = 0; index<result.length; index++){
-
-            items.push(<div>
+          console.log("Retrieved products:", result);
+          for (let index = 0; index < result.length; index++) {
+            items.push(
+              <div>
                 <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="flex-start"
-                spacing={2}
-                sx={{
-                  mt: "2em",
-                  mb: "1em",
-                }}
-              >
-                <Typography className="typographyCategories">
-                  Electronics Store test
-                </Typography>
-                <Link className="typographyCategoriesButton" to="/#">
-                  {"View all"}
-                </Link>
-              </Stack>
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="flex-start"
+                  spacing={2}
+                  sx={{
+                    mt: "2em",
+                    mb: "1em",
+                  }}
+                >
+                  <Typography className="typographyCategories">
+                    Electronics Store test
+                  </Typography>
+                  <Link className="typographyCategoriesButton" to="/#">
+                    {"View all"}
+                  </Link>
+                </Stack>
 
-              <Product />
-            </div>
-            )
+                <Product />
+              </div>
+            );
           }
-          console.log(items)
+          setItems(result);
+          console.log(items);
         }
       });
-  }
-
-  catch (e) {
+  } catch (e) {
     console.log("Error retrieving result: ", e.message);
   }
 
@@ -91,6 +95,23 @@ function Homepage() {
           </Grid>
           <Grid item xs={12} md={12}>
             {items}
+            <div className="container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items2 &&
+                    items2.map((item2) => (
+                      <tr key={item2.sellerUserID}>
+                        <td>{item2.title}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </Grid>
         </Box>
       </Grid>
