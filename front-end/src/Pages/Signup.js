@@ -2,17 +2,18 @@ import "../Styles/App.css";
 import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
 import SignupImg from "../Content/Images/Signup.svg";
-import Alert from "@material-ui/lab/Alert";
+import Alert from "@mui/lab/Alert";
 import { useAlert } from "../component/useAlert";
 
 function Signup() {
+  let navigate = useNavigate();
   const [AlertMessage, isVisible, getProps] = useAlert();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,7 +56,17 @@ function Signup() {
             console.log("Sign up failed!");}
           else {
             console.log("Successfully signed up!");
-            //Route user to log in (or log user in manually and route them to homepage)
+            //manual sign in
+            localStorage.setItem("idToken", result.idToken);
+            localStorage.setItem("userID", result.userID);
+            console.log(
+              "Successfully logged in! idToken: ",
+              localStorage.getItem("idToken")
+            );
+            console.log("User ID = ", localStorage.getItem("userID"));
+            //Route user to homepage
+            navigate("/");
+            window.location.reload(false);
           }
         });
     } catch (e) {
