@@ -11,7 +11,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import FaceIcon from "@mui/icons-material/Face";
 
-export default function ImgMediaCard() {
+export default function ProductCard() {
   return (
     <Card className="productCard">
       <CardMedia
