@@ -1,0 +1,18 @@
+Once the project is running:
+1) Select the navbar option for Signup or Login
+    1.1) Sign up using valid email and password combination
+    1.2) Login using valid email and password combination
+
+2) You will be redirected to the homepage
+    2.1) Navigation bar should update its options accordingly
+    2.2) View a list of products pulled from our firebase database
+
+3) Select the pencil option in the navbar to create a new product
+    2.1) Enter product details and hit the 'Sell' button
+    2.2) This posts the new product to the database
+
+4) Route to the homepage
+    4.1) View the newly created product
+
+4) Hit the logout button to logout
+    4.1) Navigation bar should update its options accordingly

@@ -2,7 +2,7 @@ import "../Styles/App.css";
 import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -24,6 +24,7 @@ const Input = styled("input")({
 });
 
 function UploadProduct() {
+  let navigate = useNavigate();
   var postedFlag = false;
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,20 +35,22 @@ function UploadProduct() {
       console.log("Title must be more than two characters in length.");
       return;
     }
+    if (data.get("productPrice").toString().length < 2) {
+      console.log("Must specify a product price.");
+      return;
+    }
 
     try {
       var postData = {
-        //Hardcoding category, not sure how to retrieve from autocomplete
         //category: data.get("category"),
-        category: "Test category",
+        category: "Technology",
         description: data.get("productDesc"),
-        //Hardcoding image, not sure how we will store them yet
         //image: data.get("image"),
-        image: "Test image",
+        image: "test.jpeg",
         price: data.get("productPrice"),
         //Hardcoding this until everyone is using the login
         //sellerUserID: data.get(localStorage.getItem("userID")),
-        sellerUserID: 2,
+        sellerUserID: "John Doe",
         title: data.get("productTitle"),
       };
       
@@ -62,6 +65,7 @@ function UploadProduct() {
           .then((data) => {
             console.log("Created product with ID = " + data); 
             postedFlag = true;
+            navigate("/")
           });
     } catch (e) {
       console.log("Error logging in: ", e.message);
@@ -121,6 +125,7 @@ function UploadProduct() {
               <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
               <OutlinedInput
                 id="productPrice"
+                name="productPrice"
                 startAdornment={
                   <InputAdornment position="start">$</InputAdornment>
                 }
