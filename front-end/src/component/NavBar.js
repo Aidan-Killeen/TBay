@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CreateIcon from "@mui/icons-material/Create";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { Link } from "react-router-dom";
 
 export default function SimpleBottomNavigation() {
@@ -41,7 +42,7 @@ export default function SimpleBottomNavigation() {
           <BottomNavigationAction
             component={Link}
             to="/signup"
-            icon={<LogoutIcon />}
+            icon={<AppRegistrationIcon />}
           />
         </BottomNavigation>
       </Box>

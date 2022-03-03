@@ -127,7 +127,7 @@ const Homepage = () => {
                         className="productImage"
                         component="img"
                         height="50%"
-                        image="test.jpg"
+                        image={item2.data.image}
                         alt="green iguana"
                       />
                       <CardContent>
