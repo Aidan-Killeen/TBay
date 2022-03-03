@@ -2,17 +2,18 @@ import "../Styles/App.css";
 import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ReactComponent as GoogleLogo } from "../Content/Images/Google.svg";
 import LoginImg from "../Content/Images/Login.svg";
-import Alert from "@material-ui/lab/Alert";
+import Alert from "@mui/lab/Alert";
 import { useAlert } from "../component/useAlert";
 
 function Login() {
+  let navigate = useNavigate();
   const [AlertMessage, isVisible, getProps] = useAlert();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,6 +52,7 @@ function Login() {
               localStorage.getItem("idToken")
             );
             console.log("User ID = ", localStorage.getItem("userID"));
+            navigate("/");
             window.location.reload(false);
           }
         });
