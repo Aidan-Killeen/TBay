@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert as AlertMaterial } from "@material-ui/lab";
+import { Alert as AlertMaterial } from "@mui/lab";
 
 export const useAlert = () => {
   const [isVisible, setVisible] = useState(false);
