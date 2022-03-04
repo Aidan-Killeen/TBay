@@ -1,5 +1,5 @@
 import "../Styles/App.css";
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import Autocomplete from "./TempAutocomplete.js";
+// import Autocomplete from "./TempAutocomplete.js";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -26,27 +27,45 @@ const Input = styled("input")({
 function UploadProduct() {
   let navigate = useNavigate();
   var postedFlag = false;
+  const [category, setCategory] = useState(
+    {
+      title: ""
+    });
+    
+  function isNumeric(str) {
+    if (typeof str != "string") return false 
+    return !isNaN(str) && !isNaN(parseFloat(str)) 
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     //handle product requirements (required fields)
-    if (data.get("productTitle").toString().length < 2) {
+    if (data.get("productTitle").toString().length < 3) {
+      alert("Title must be more than two characters in length.")
       console.log("Title must be more than two characters in length.");
       return;
     }
-    if (data.get("productPrice").toString().length < 2) {
+    if (data.get("productPrice").toString().length < 2 || !isNumeric(data.get("productPrice").toString())) {
+      alert("Must specify a valid product price.")
       console.log("Must specify a product price.");
       return;
     }
+    if (category.title=="") {
+      alert("Must select a category.")
+      console.log("Must select a category.");
+      return;
+    }
+    console.log("Category: ", category);
 
     try {
       var postData = {
         //category: data.get("category"),
-        category: "Technology",
+        category: category.title,
         description: data.get("productDesc"),
         //image: data.get("image"),
-        image: "test.jpeg",
+        image: "test.jpg",
         price: data.get("productPrice"),
         //Hardcoding this until everyone is using the login
         //sellerUserID: data.get(localStorage.getItem("userID")),
@@ -72,6 +91,19 @@ function UploadProduct() {
     }
   };
 
+  function submitCategory(value){
+    if(value!==null){
+      setCategory({
+        title: value
+      })
+    }
+    else{
+      setCategory({
+        title: ""
+      })
+    }
+  }
+
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       {/* <Grid item xs={12} sm={12} md={6}>
@@ -80,7 +112,7 @@ function UploadProduct() {
         </Box>
       </Grid>
     */}
-      <Grid item xs={12} sm={12} md={6} square>
+      <Grid item xs={12} sm={12} md={6} >
         <Box
           sx={{
             mt: "1em",
@@ -132,7 +164,25 @@ function UploadProduct() {
                 label="Price"
               />
             </FormControl>
-            <Autocomplete />
+            
+            <Autocomplete
+              clearOnEscape
+              id="category"
+              onChange={(event, value) => submitCategory(value)}
+              options={categories}
+              getOptionLabel={(option) => option.title}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Category"
+                  placeholder="Category"
+                  margin="normal"
+                  variant="standard"
+                  required
+                />
+              )}
+            />
             <TextField
               margin="normal"
               fullWidth
@@ -158,5 +208,12 @@ function UploadProduct() {
     </Grid>
   );
 }
+const categories = [
+  { title: "Mobile" },
+  { title: "Laptops" },
+  { title: "Books" },
+  { title: "Furniture" },
+  { title: "Clothes" },
+];
 
 export default UploadProduct;
