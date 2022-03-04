@@ -20,7 +20,7 @@ import Product from "../component/ProductCard";
 
 const Homepage = () => {
   var items = [];
-  const [items2, setItems] = useState([
+  const [products, setItems] = useState([
     {
       iD: "",
       data: {
@@ -71,14 +71,11 @@ const Homepage = () => {
             setItems(result);
           }
         });
-    } catch (e) {
+    } 
+    catch (e) {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
-
-  function click() {
-    console.log(items2);
-  }
 
   return (
     <div>
@@ -113,9 +110,9 @@ const Homepage = () => {
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="container">
-              {items2 &&
-                items2.map((item2) => (
-                  <>
+              {products &&
+                products.map((product) => (
+                  <React.Fragment key={product.iD}>
                     <Card
                       className="productCard"
                       sx={{
@@ -127,7 +124,7 @@ const Homepage = () => {
                         className="productImage"
                         component="img"
                         height="50%"
-                        image={item2.data.image}
+                        image={product.data.image}
                         alt="green iguana"
                       />
                       <CardContent>
@@ -142,7 +139,7 @@ const Homepage = () => {
                                 className="productInfoText productTitle"
                                 gutterBottom
                               >
-                                {item2.data.title}
+                                {product.data.title}
                               </Typography>
                             </Stack>
                             <Stack
@@ -151,13 +148,13 @@ const Homepage = () => {
                               alignItems="center"
                             >
                               <Typography className="productInfoText productPrice">
-                                {item2.data.price + `€`}
+                                {product.data.price + `€`}
                               </Typography>
 
                               <Chip
                                 className="productInfoText productOwnerInfo"
                                 icon={<FaceIcon />}
-                                label={`by` + item2.data.sellerUserID}
+                                label={`by` + product.data.sellerUserID}
                                 variant="outlined"
                               />
                             </Stack>
@@ -165,12 +162,11 @@ const Homepage = () => {
                         </Grid>
                       </CardContent>
                     </Card>
-                  </>
+                  </React.Fragment>
                 ))}
             </div>
           </Grid>
         </Box>
-        <button onClick={click}></button>
       </Grid>
     </div>
   );
