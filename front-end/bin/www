@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./RouteRedirect');
 var debug = require('debug')('front-end:server');
 var http = require('http');
 
