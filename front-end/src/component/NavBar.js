@@ -6,19 +6,17 @@ import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CreateIcon from "@mui/icons-material/Create";
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState(0);
-  
+
   //console.log("User ID = ", localStorage.getItem("userID"));
   //console.log("User token = ", localStorage.getItem("idToken"));
 
-
-  
-
-  if(localStorage.getItem("idToken") == null)
+  if (localStorage.getItem("idToken") == null)
     return (
       <Box sx={{ width: "100%" }}>
         <BottomNavigation
@@ -29,11 +27,7 @@ export default function SimpleBottomNavigation() {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction
-            component={Link}
-            to="/" 
-            icon={<HomeIcon />} 
-          />
+          <BottomNavigationAction component={Link} to="/" icon={<HomeIcon />} />
           <BottomNavigationAction
             component={Link}
             to="/login"
@@ -58,11 +52,7 @@ export default function SimpleBottomNavigation() {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction
-            component={Link}
-            to="/" 
-            icon={<HomeIcon />} 
-          />
+          <BottomNavigationAction component={Link} to="/" icon={<HomeIcon />} />
           <BottomNavigationAction
             component={Link}
             to="/upload"
@@ -73,8 +63,12 @@ export default function SimpleBottomNavigation() {
             to="/logout"
             icon={<LogoutIcon />}
           />
+          <BottomNavigationAction
+            component={Link}
+            to="/profile"
+            icon={<PersonIcon />}
+          />
         </BottomNavigation>
       </Box>
     );
 }
-
