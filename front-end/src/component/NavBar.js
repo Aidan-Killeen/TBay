@@ -15,6 +15,7 @@ export default function SimpleBottomNavigation() {
 
   //console.log("User ID = ", localStorage.getItem("userID"));
   //console.log("User token = ", localStorage.getItem("idToken"));
+  //console.log("User email = ", localStorage.getItem("userEmail"));
 
   if (localStorage.getItem("idToken") == null)
     return (

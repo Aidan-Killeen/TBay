@@ -46,11 +46,15 @@ function Login() {
           else {
             localStorage.setItem("idToken", result.idToken);
             localStorage.setItem("userID", result.userID);
+            localStorage.setItem("userEmail", data.get("email"));
+            /*
             console.log(
               "Successfully logged in! idToken: ",
               localStorage.getItem("idToken")
             );
             console.log("User ID = ", localStorage.getItem("userID"));
+            console.log("User Email = ", localStorage.getItem("userEmail"));
+            */
             navigate("/");
             window.location.reload(false);
           }

@@ -44,7 +44,7 @@ export default function ProductCard() {
               <Chip
                 className="productInfoText productOwnerInfo"
                 icon={<FaceIcon />}
-                label={`by` + `John Doe`}
+                label={`by ` + `John Doe`}
                 variant="outlined"
               />
             </Stack>
