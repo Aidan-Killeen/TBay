@@ -6,7 +6,7 @@ Digital marketplace aimed at students attending Trinity College Dublin.
 npm i -g concurrently
 
 ## Change directory to backend ##
-cd front-end
+cd app
 
 ## Run frontend & backend concurrently
 npm run dev
@@ -25,7 +25,7 @@ npm start
 cd ..
 
 ## Change directory to frontend
-cd front-end
+cd app
 
 ## Install dependencies
 npm i
