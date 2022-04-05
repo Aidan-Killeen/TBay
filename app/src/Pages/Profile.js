@@ -35,7 +35,7 @@ const Profile = () => {
   ]);
 
   useEffect(() => {
-    // adjust dependencies to your needs
+    // Gets all products and filters ones matching logged in username
     try {
       fetch("http://localhost:3001/users/product")
         .then((res) => res.json())
@@ -43,32 +43,13 @@ const Profile = () => {
           if (result === false) console.log("Backend retrieval failed!");
           else {
             console.log("Retrieved products:", result);
+            let items = [];
             for (let index = 0; index < result.length; index++) {
-              items.push(
-                <div>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="flex-start"
-                    spacing={2}
-                    sx={{
-                      mt: "2em",
-                      mb: "1em",
-                    }}
-                  >
-                    <Typography className="typographyCategories">
-                      Electronics Store test
-                    </Typography>
-                    <Link className="typographyCategoriesButton" to="/#">
-                      {"View all"}
-                    </Link>
-                  </Stack>
-
-                  <Product />
-                </div>
-              );
-            }
-            setItems(result);
+              if(result[index].data["sellerUserID"]==localStorage.getItem("userEmail")){
+                items.push(result[index]);
+              }
+            }  
+            setItems(items);
           }
         });
     } catch (e) {
