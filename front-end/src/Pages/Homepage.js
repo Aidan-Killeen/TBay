@@ -154,7 +154,7 @@ const Homepage = () => {
                               <Chip
                                 className="productInfoText productOwnerInfo"
                                 icon={<FaceIcon />}
-                                label={`by` + product.data.sellerUserID}
+                                label={`by ` + product.data.sellerUserID}
                                 variant="outlined"
                               />
                             </Stack>

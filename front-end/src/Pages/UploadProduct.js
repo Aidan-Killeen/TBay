@@ -60,6 +60,7 @@ function UploadProduct() {
     console.log("Category: ", category);
 
     try {
+      //console.log(data.get(localStorage.getItem("userID")));
       var postData = {
         //category: data.get("category"),
         category: category.title,
@@ -69,7 +70,8 @@ function UploadProduct() {
         price: data.get("productPrice"),
         //Hardcoding this until everyone is using the login
         //sellerUserID: data.get(localStorage.getItem("userID")),
-        sellerUserID: "John Doe",
+        //sellerUserID: "John Doe",
+        sellerUserID: localStorage.getItem("userEmail"),
         title: data.get("productTitle"),
       };
       
@@ -159,7 +161,7 @@ function UploadProduct() {
                 id="productPrice"
                 name="productPrice"
                 startAdornment={
-                  <InputAdornment position="start">$</InputAdornment>
+                  <InputAdornment position="start">€</InputAdornment>
                 }
                 label="Price"
               />

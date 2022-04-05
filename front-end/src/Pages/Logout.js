@@ -22,6 +22,7 @@ function Logout() {
       useEffect(()=>{
         localStorage.removeItem("idToken");
         localStorage.removeItem("userID");
+        localStorage.removeItem("userEmail");
         navigate("/");
         //const [value, setValue] = React.useState(0);
         //this.setState();
