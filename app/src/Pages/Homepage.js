@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 
 //temp
@@ -76,6 +78,8 @@ const Homepage = () => {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
+
+  
 
   return (
     <div>
@@ -150,6 +154,16 @@ const Homepage = () => {
                               <Typography className="productInfoText productPrice">
                                 {product.data.price + `€`}
                               </Typography>
+                              <CardActions>
+                                <Button 
+                                  size="small"
+                                  to ='#'
+                                  onClick = {() => window.open('mailto:' +product.data.sellerUserID +
+                                  '?subject=TBay Purchase inquiry: ' + product.data.title)}
+                                >
+                                  Contact
+                                </Button>
+                              </CardActions>
 
                               <Chip
                                 className="productInfoText productOwnerInfo"
