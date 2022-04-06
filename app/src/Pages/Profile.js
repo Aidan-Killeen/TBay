@@ -7,6 +7,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import CardHeader from "@mui/material/CardHeader";
+import Dialog from "../component/deleteDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 //temp
 import Card from "@mui/material/Card";
@@ -33,6 +37,36 @@ const Profile = () => {
       },
     },
   ]);
+
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+    //Update
+    nameProduct: ""
+  });
+  const idProductRef = useRef();
+  const handleDialog = (message, isLoading, nameProduct) => {
+    setDialog({
+      message,
+      isLoading,
+      //Update
+      nameProduct
+    });
+  };
+
+  const handleDelete = (product) => {
+    handleDialog("Are you sure you want to delete?", true, product.data.title);
+    idProductRef.current = product.iD;
+  };
+
+  const areUSureDelete = (choose) => {
+    if (choose) {
+      deleteProduct(idProductRef.current);
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
 
   useEffect(() => {
     // Gets all products and filters ones matching logged in username
@@ -120,6 +154,23 @@ const Profile = () => {
                           mb: "2em",
                         }}
                       >
+                         <CardHeader
+                        action={
+                          <div>
+                          <IconButton aria-label="delete" onClick={() =>   handleDelete(product)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </div>
+                         }
+                        />
+                        {dialog.isLoading && (
+                        <Dialog
+                        //Update
+                        nameProduct={dialog.nameProduct}
+                        onDialog={areUSureDelete}
+                        message={dialog.message}
+                        />
+                         )}
                         <CardMedia
                           className="productImage"
                           component="img"
@@ -160,7 +211,6 @@ const Profile = () => {
                               </Stack>
                             </Grid>
                           </Grid>
-                          <button onClick={() =>deleteProduct(product.iD)}>DELETE PRODUCT</button>
                         </CardContent>
                       </Card>
                     </React.Fragment>
