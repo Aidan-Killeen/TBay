@@ -59,25 +59,6 @@ function UploadProduct() {
     }
     console.log("Category: ", category);
 
-    const deleteProduct = (selectedProduct) => {
-      try {
-        var postData = {
-          iD: selectedProduct.iD,
-        };
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(postData)
-        };
-        fetch("http://localhost:3001/users/delete-product", requestOptions)
-            .then(response => response.json())
-            .then((data) => {
-              console.log("Deleted product with ID = " + data); 
-            });
-      } catch (e) {
-        console.log("Error logging in: ", e.message);
-      }
-    };
 
   try {
     //console.log(data.get(localStorage.getItem("userID")));
