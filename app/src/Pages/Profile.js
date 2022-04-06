@@ -11,7 +11,7 @@ import { useRef } from "react";
 import CardHeader from "@mui/material/CardHeader";
 import Dialog from "../component/deleteDialog";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import Button from "@mui/material/Button";
 //temp
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -82,7 +82,7 @@ const Profile = () => {
               if(result[index].data["sellerUserID"]==localStorage.getItem("userEmail")){
                 items.push(result[index]);
               }
-            }  
+            }
             setItems(items);
           }
         });
@@ -104,7 +104,7 @@ const Profile = () => {
       fetch("http://localhost:3001/users/delete-product", requestOptions)
           .then(response => response.json())
           .then((data) => {
-            console.log("Deleted product with ID = " + data); 
+            console.log("Deleted product with ID = " + data);
             window.location.reload(false);
           });
     } catch (e) {
@@ -156,13 +156,9 @@ const Profile = () => {
                         }}
                       >
                          <CardHeader
-                        action={
-                          <div>
-                          <IconButton aria-label="delete" onClick={() =>   handleDelete(product)}>
-                            <DeleteIcon />
-                          </IconButton>
-                        </div>
-                         }
+
+
+
                         />
                         {dialog.isLoading && (
                         <Dialog
@@ -183,7 +179,7 @@ const Profile = () => {
                           <Grid container>
                             <Grid item xs={12}>
                               <Stack
-                                direction="column"
+                                direction="row"
                                 justifyContent="flex-end"
                                 alignItems="flex-start"
                               >
@@ -193,6 +189,10 @@ const Profile = () => {
                                 >
                                   {product.data.title}
                                 </Typography>
+                                <IconButton aria-label="delete" onClick={() =>   handleDelete(product)}>
+
+                                  <DeleteIcon />
+                                </IconButton>
                               </Stack>
                               <Stack
                                 direction="row"
@@ -210,6 +210,9 @@ const Profile = () => {
                                   variant="outlined"
                                 />
                               </Stack>
+
+
+
                             </Grid>
                           </Grid>
                         </CardContent>

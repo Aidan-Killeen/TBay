@@ -73,13 +73,13 @@ const Homepage = () => {
             setItems(result);
           }
         });
-    } 
+    }
     catch (e) {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
 
-  
+
 
   return (
     <div>
@@ -129,7 +129,7 @@ const Homepage = () => {
                         component="img"
                         height="50%"
                         image={product.data.image}
-                        alt="green iguana"
+                        alt={product.data.title}
                       />
                       <CardContent>
                         <Grid container>
@@ -155,23 +155,28 @@ const Homepage = () => {
                                 {product.data.price + `€`}
                               </Typography>
                               <CardActions>
-                                <Button 
-                                  size="small"
-                                  to ='#'
-                                  onClick = {() => window.open('mailto:' +product.data.sellerUserID +
-                                  '?subject=TBay Purchase inquiry: ' + product.data.title)}
-                                >
-                                  Contact
-                                </Button>
+
                               </CardActions>
 
                               <Chip
                                 className="productInfoText productOwnerInfo"
+
                                 icon={<FaceIcon />}
                                 label={`by ` + product.data.sellerUserID}
                                 variant="outlined"
                               />
                             </Stack>
+                            <Button
+                              className="buttonMain"
+                              fullWidth
+                              variant="contained"
+                              sx={{ mt: 2 }}
+                              to ='#'
+                              onClick = {() => window.open('mailto:' +product.data.sellerUserID +
+                              '?subject=TBay Purchase inquiry: ' + product.data.title)}
+                            >
+                              Contact
+                            </Button>
                           </Grid>
                         </Grid>
                       </CardContent>
