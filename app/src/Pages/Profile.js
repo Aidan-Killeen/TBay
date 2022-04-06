@@ -67,11 +67,11 @@ const Profile = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData)
       };
-      // fetch("http://localhost:3001/users/delete-product", requestOptions)
-      //     .then(response => response.json())
-      //     .then((data) => {
-      //       console.log("Deleted product with ID = " + data); 
-      //     });
+      fetch("http://localhost:3001/users/delete-product", requestOptions)
+          .then(response => response.json())
+          .then((data) => {
+            console.log("Deleted product with ID = " + data); 
+          });
     } catch (e) {
       console.log("Error logging in: ", e.message);
     }
