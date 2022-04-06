@@ -59,39 +59,41 @@ function UploadProduct() {
     }
     console.log("Category: ", category);
 
-    try {
-      //console.log(data.get(localStorage.getItem("userID")));
-      var postData = {
-        //category: data.get("category"),
-        category: category.title,
-        description: data.get("productDesc"),
-        //image: data.get("image"),
-        image: "test.jpg",
-        price: data.get("productPrice"),
-        //Hardcoding this until everyone is using the login
-        //sellerUserID: data.get(localStorage.getItem("userID")),
-        //sellerUserID: "John Doe",
-        sellerUserID: localStorage.getItem("userEmail"),
-        title: data.get("productTitle"),
-      };
-      
-      // Simple PUT request with a JSON body using fetch
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
-      };
-      fetch("http://localhost:3001/users/post-product", requestOptions)
-          .then(response => response.json())
-          .then((data) => {
-            console.log("Created product with ID = " + data); 
-            postedFlag = true;
-            navigate("/")
-          });
-    } catch (e) {
-      console.log("Error logging in: ", e.message);
-    }
-  };
+
+  try {
+    //console.log(data.get(localStorage.getItem("userID")));
+    var postData = {
+      //category: data.get("category"),
+      category: category.title,
+      description: data.get("productDesc"),
+      //image: data.get("image"),
+      image: "test.jpg",
+      price: data.get("productPrice"),
+      //Hardcoding this until everyone is using the login
+      //sellerUserID: data.get(localStorage.getItem("userID")),
+      //sellerUserID: "John Doe",
+      sellerUserID: localStorage.getItem("userEmail"),
+      title: data.get("productTitle"),
+    };
+    
+    // Simple PUT request with a JSON body using fetch
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)
+    };
+    fetch("http://localhost:3001/users/post-product", requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+          console.log("Created product with ID = " + data); 
+          postedFlag = true;
+          navigate("/")
+        });
+  } catch (e) {
+    console.log("Error logging in: ", e.message);
+  }
+};
+
 
   function submitCategory(value){
     if(value!==null){

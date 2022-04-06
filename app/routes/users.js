@@ -154,6 +154,26 @@ router.post("/post-product", cors(), function (req, res) {
   }
 });
 
+// Delete a product
+router.post("/delete-product", cors(), function (req, res) {
+  var iD = req.body.iD;
+  console.log("iD to delete: ", iD)
+  try {
+    firebase
+      .database()
+      .ref("/products/" + iD)
+      .remove()
+      .then(() => {
+        return res
+          .status(200)
+          .send(JSON.stringify("Delete Successful, deleted ID = " + iD));
+      });
+  } catch (error) {
+    console.log("Error retrieving data!", error);
+    return res.status(200).send(JSON.stringify(false));
+  }
+});
+
 // Update a product
 router.post("/update-product", cors(), function (req, res) {
   var productKey = req.body.productKey;

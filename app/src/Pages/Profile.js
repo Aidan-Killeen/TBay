@@ -57,6 +57,26 @@ const Profile = () => {
     }
   }, []);
 
+  const deleteProduct = (selectedID) => {
+    try {
+      var postData = {
+        iD: selectedID,
+      };
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      };
+      fetch("http://localhost:3001/users/delete-product", requestOptions)
+          .then(response => response.json())
+          .then((data) => {
+            console.log("Deleted product with ID = " + data); 
+          });
+    } catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
+  };
+
   return (
     <div>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -140,6 +160,7 @@ const Profile = () => {
                               </Stack>
                             </Grid>
                           </Grid>
+                          <button onClick={() =>deleteProduct(product.iD)}>DELETE PRODUCT</button>
                         </CardContent>
                       </Card>
                     </React.Fragment>
