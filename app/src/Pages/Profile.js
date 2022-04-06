@@ -105,6 +105,7 @@ const Profile = () => {
           .then(response => response.json())
           .then((data) => {
             console.log("Deleted product with ID = " + data); 
+            window.location.reload(false);
           });
     } catch (e) {
       console.log("Error logging in: ", e.message);
@@ -205,7 +206,7 @@ const Profile = () => {
                                 <Chip
                                   className="productInfoText productOwnerInfo"
                                   icon={<FaceIcon />}
-                                  label={`by` + product.data.sellerUserID}
+                                  label={`by ` + product.data.sellerUserID}
                                   variant="outlined"
                                 />
                               </Stack>
