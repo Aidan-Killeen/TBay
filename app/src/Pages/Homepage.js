@@ -1,24 +1,43 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
+import { styled } from "@mui/material/styles";
+
+import {
+  Grid,
+  Box,
+  InputBase,
+  Typography,
+  Stack,
+  CardActions,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  Collapse,
+} from "@mui/material";
+
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 
-//temp
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import Chip from "@mui/material/Chip";
 import FaceIcon from "@mui/icons-material/Face";
-//temp end
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Product from "../component/ProductCard";
+
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const Homepage = () => {
   var items = [];
@@ -73,13 +92,16 @@ const Homepage = () => {
             setItems(result);
           }
         });
-    }
-    catch (e) {
+    } catch (e) {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
 
+  const [expanded, setExpanded] = React.useState(false);
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
     <div>
@@ -135,7 +157,7 @@ const Homepage = () => {
                         <Grid container>
                           <Grid item xs={12}>
                             <Stack
-                              direction="column"
+                              direction="row"
                               justifyContent="flex-end"
                               alignItems="flex-start"
                             >
@@ -145,6 +167,12 @@ const Homepage = () => {
                               >
                                 {product.data.title}
                               </Typography>
+                              <Chip
+                                className="productInfoText productOwnerInfo"
+                                icon={<FaceIcon />}
+                                label={`by ` + product.data.sellerUserID}
+                                variant="outlined"
+                              />
                             </Stack>
                             <Stack
                               direction="row"
@@ -154,32 +182,51 @@ const Homepage = () => {
                               <Typography className="productInfoText productPrice">
                                 {product.data.price + `€`}
                               </Typography>
-                              <CardActions>
 
-                              </CardActions>
-
-                              <Chip
-                                className="productInfoText productOwnerInfo"
-
-                                icon={<FaceIcon />}
-                                label={`by ` + product.data.sellerUserID}
-                                variant="outlined"
-                              />
+                              <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more"
+                              >
+                                <ExpandMoreIcon />
+                              </ExpandMore>
                             </Stack>
                             <Button
                               className="buttonMain"
                               fullWidth
                               variant="contained"
                               sx={{ mt: 2 }}
-                              to ='#'
-                              onClick = {() => window.open('mailto:' +product.data.sellerUserID +
-                              '?subject=TBay Purchase inquiry: ' + product.data.title)}
+                              to="#"
+                              onClick={() =>
+                                window.open(
+                                  "mailto:" +
+                                    product.data.sellerUserID +
+                                    "?subject=TBay Purchase inquiry: " +
+                                    product.data.title
+                                )
+                              }
                             >
                               Contact
                             </Button>
                           </Grid>
                         </Grid>
                       </CardContent>
+                      <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                          <Stack justifyContent="flex-start" spacing={2}>
+                            <Typography
+                              className="productInfoText"
+                              align="left"
+                            >
+                              Item Description
+                            </Typography>
+                            <Typography align="left">
+                              {product.data.description}
+                            </Typography>
+                          </Stack>
+                        </CardContent>
+                      </Collapse>
                     </Card>
                   </React.Fragment>
                 ))}

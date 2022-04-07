@@ -1,26 +1,38 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+
+import {
+  Grid,
+  Box,
+  Typography,
+  Stack,
+  Card,
+  CardMedia,
+  CardContent,
+  Collapse,
+} from "@mui/material/";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+
 import { Link } from "react-router-dom";
 import { useRef } from "react";
-import CardHeader from "@mui/material/CardHeader";
 import Dialog from "../component/deleteDialog";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
-//temp
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import Chip from "@mui/material/Chip";
-import FaceIcon from "@mui/icons-material/Face";
-//temp end
-import Product from "../component/ProductCard";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const Profile = () => {
   var items = [];
@@ -42,7 +54,7 @@ const Profile = () => {
     message: "",
     isLoading: false,
     //Update
-    nameProduct: ""
+    nameProduct: "",
   });
   const idProductRef = useRef();
   const handleDialog = (message, isLoading, nameProduct) => {
@@ -50,12 +62,12 @@ const Profile = () => {
       message,
       isLoading,
       //Update
-      nameProduct
+      nameProduct,
     });
   };
 
   const handleDelete = (product) => {
-    handleDialog("Are you sure you want to delete?", true, product.data.title);
+    handleDialog("You are about to delete", true, product.data.title);
     idProductRef.current = product.iD;
   };
 
@@ -79,7 +91,10 @@ const Profile = () => {
             console.log("Retrieved products:", result);
             let items = [];
             for (let index = 0; index < result.length; index++) {
-              if(result[index].data["sellerUserID"]==localStorage.getItem("userEmail")){
+              if (
+                result[index].data["sellerUserID"] ===
+                localStorage.getItem("userEmail")
+              ) {
                 items.push(result[index]);
               }
             }
@@ -97,19 +112,25 @@ const Profile = () => {
         iD: selectedID,
       };
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
       };
       fetch("http://localhost:3001/users/delete-product", requestOptions)
-          .then(response => response.json())
-          .then((data) => {
-            console.log("Deleted product with ID = " + data);
-            window.location.reload(false);
-          });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Deleted product with ID = " + data);
+          window.location.reload(false);
+        });
     } catch (e) {
       console.log("Error logging in: ", e.message);
     }
+  };
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
   return (
@@ -121,7 +142,7 @@ const Profile = () => {
         </Box>
       </Grid>
     */}
-        <Grid item xs={12} sm={12} md={6}>
+        <Grid item xs={12} sm={12} md={12}>
           <Box
             sx={{
               mt: "1em",
@@ -155,25 +176,20 @@ const Profile = () => {
                           mb: "2em",
                         }}
                       >
-                         <CardHeader
-
-
-
-                        />
                         {dialog.isLoading && (
-                        <Dialog
-                        //Update
-                        nameProduct={dialog.nameProduct}
-                        onDialog={areUSureDelete}
-                        message={dialog.message}
-                        />
-                         )}
+                          <Dialog
+                            //Update
+                            nameProduct={dialog.nameProduct}
+                            onDialog={areUSureDelete}
+                            message={dialog.message}
+                          />
+                        )}
                         <CardMedia
                           className="productImage"
                           component="img"
                           height="50%"
                           image={product.data.image}
-                          alt="green iguana"
+                          alt={dialog.title}
                         />
                         <CardContent>
                           <Grid container>
@@ -189,8 +205,10 @@ const Profile = () => {
                                 >
                                   {product.data.title}
                                 </Typography>
-                                <IconButton aria-label="delete" onClick={() =>   handleDelete(product)}>
-
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => handleDelete(product)}
+                                >
                                   <DeleteIcon />
                                 </IconButton>
                               </Stack>
@@ -202,20 +220,33 @@ const Profile = () => {
                                 <Typography className="productInfoText productPrice">
                                   {product.data.price + `€`}
                                 </Typography>
-
-                                <Chip
-                                  className="productInfoText productOwnerInfo"
-                                  icon={<FaceIcon />}
-                                  label={`by ` + product.data.sellerUserID}
-                                  variant="outlined"
-                                />
+                                <ExpandMore
+                                  expand={expanded}
+                                  onClick={handleExpandClick}
+                                  aria-expanded={expanded}
+                                  aria-label="show more"
+                                >
+                                  <ExpandMoreIcon />
+                                </ExpandMore>
                               </Stack>
-
-
-
                             </Grid>
                           </Grid>
                         </CardContent>
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                          <CardContent>
+                            <Stack justifyContent="flex-start" spacing={2}>
+                              <Typography
+                                className="productInfoText"
+                                align="left"
+                              >
+                                Item Description
+                              </Typography>
+                              <Typography align="left">
+                                {product.data.description}
+                              </Typography>
+                            </Stack>
+                          </CardContent>
+                        </Collapse>
                       </Card>
                     </React.Fragment>
                   ))}
