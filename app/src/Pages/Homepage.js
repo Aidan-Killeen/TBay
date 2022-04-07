@@ -62,7 +62,7 @@ const Homepage = () => {
 
   function filter(items) {
     setPage(paginator(filtered, 1, 5).page);
-    if(inputText === "")
+    if(input === "")
     {
       setFilteredItems(items);
       //console.log(inputText, products, filtered);
@@ -72,7 +72,7 @@ const Homepage = () => {
       let result = [];
       //input = inputText;
       for (let index = 0; index < items.length; index++) {
-        if (items[index].data["title"].toLowerCase().includes(inputText.toLowerCase())) 
+        if (items[index].data["title"].toLowerCase().includes(input.toLowerCase())) 
         {
           result.push(items[index]);
         }
@@ -134,18 +134,7 @@ const Homepage = () => {
           if (result === false) console.log("Backend retrieval failed!");
           else {
             console.log("Retrieved products:", result);
-
-            //remove inactive products from fetched products
-            let result2 = [];
             for (let index = 0; index < result.length; index++) {
-              if (result[index].data.status === "active") 
-              {
-                result2.push(result[index]);
-              }
-            }
-            //console.log("Retrieved products:", result2);
-            
-            for (let index = 0; index < result2.length; index++) {
               items.push(
                 <div>
                   <Stack
@@ -170,14 +159,15 @@ const Homepage = () => {
                 </div>
               );
             }
-            setItems(result2);
-            setFilteredItems(result2);
+            setItems(result);
+            setFilteredItems(result);
           }
         });
     } catch (e) {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
+  let input = ""
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -187,9 +177,10 @@ const Homepage = () => {
 
   const [inputText,setInputText] = useState("");
   let inputHandler = (e) => {
-    //convert input text to lower case
     var result = e.target.value.toString();
     setInputText(result);
+    input = result;
+    filter(products);
   };
 
   return (
@@ -234,109 +225,114 @@ const Homepage = () => {
             <div className="container">
               {filtered &&
               paginator(filtered, page, 5).data.map((product) => (
-                // products.map((product) => (
-                  <React.Fragment key={product.iD}>
-                    <Card
-                      className="productCard"
-                      sx={{
-                        mt: "2em",
-                        mb: "2em",
-                      }}
-                    >
-                      <CardMedia
-                        className="productImage"
-                        component="img"
-                        height="50%"
-                        image={product.data.image}
-                        alt={product.data.title}
-                      />
-                      <CardContent>
-                        <Grid container>
-                          <Grid item xs={12}>
-                            <Stack
-                              direction="row"
-                              justifyContent="flex-end"
-                              alignItems="flex-start"
-                            >
-                              <Typography
-                                className="productInfoText productTitle"
-                                gutterBottom
-                              >
-                                {product.data.title}
-                              </Typography>
-                              <Chip
-                                className="productInfoText productOwnerInfo"
-                                icon={<FaceIcon />}
-                                label={`by ` + product.data.sellerUserID}
-                                variant="outlined"
-                              />
-                            </Stack>
-                            <Stack
-                              direction="row"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography className="productInfoText productPrice">
-                                {product.data.price + `€`}
-                              </Typography>
+                <>
+                {product.data.status=="active" ? 
+                <React.Fragment key={product.iD}>
+                <Card
+                  className="productCard"
+                  sx={{
+                    mt: "2em",
+                    mb: "2em",
+                  }}
+                >
+                  <CardMedia
+                    className="productImage"
+                    component="img"
+                    height="50%"
+                    image={product.data.image}
+                    alt={product.data.title}
+                  />
+                  <CardContent>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Stack
+                          direction="row"
+                          justifyContent="flex-end"
+                          alignItems="flex-start"
+                        >
+                          <Typography
+                            className="productInfoText productTitle"
+                            gutterBottom
+                          >
+                            {product.data.title}
+                          </Typography>
+                          <Chip
+                            className="productInfoText productOwnerInfo"
+                            icon={<FaceIcon />}
+                            label={`by ` + product.data.sellerUserID}
+                            variant="outlined"
+                          />
+                        </Stack>
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Typography className="productInfoText productPrice">
+                            {product.data.price + `€`}
+                          </Typography>
 
-                              <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                              >
-                                <ExpandMoreIcon />
-                              </ExpandMore>
-                            </Stack>
-                            <Button
-                              className="buttonMain"
-                              fullWidth
-                              variant="contained"
-                              sx={{ mt: 2 }}
-                              to="#"
-                              onClick={() =>
-                                window.open(
-                                  "mailto:" +
-                                    product.data.sellerUserID +
-                                    "?subject=TBay Purchase inquiry: " +
-                                    product.data.title
-                                )
-                              }
-                            >
-                              Contact
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </CardContent>
-                      <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <CardContent>
-                          <Stack justifyContent="flex-start" spacing={2}>
-                            <Typography
-                              className="productInfoText"
-                              align="left"
-                            >
-                              Item Description
-                            </Typography>
-                            <Typography align="left">
-                              {product.data.description}
-                            </Typography>
-                          </Stack>
-                          <Stack justifyContent="flex-start" spacing={2}>
-                            <Typography
-                              className="productInfoText"
-                              align="left"
-                            >
-                              Category
-                            </Typography>
-                            <Typography align="left">
-                              {product.data.category.title}
-                            </Typography>
-                          </Stack>
-                        </CardContent>
-                      </Collapse>
-                    </Card>
-                  </React.Fragment>
+                          <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                          >
+                            <ExpandMoreIcon />
+                          </ExpandMore>
+                        </Stack>
+                        <Button
+                          className="buttonMain"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 2 }}
+                          to="#"
+                          onClick={() =>
+                            window.open(
+                              "mailto:" +
+                                product.data.sellerUserID +
+                                "?subject=TBay Purchase inquiry: " +
+                                product.data.title
+                            )
+                          }
+                        >
+                          Contact
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                      <Stack justifyContent="flex-start" spacing={2}>
+                        <Typography
+                          className="productInfoText"
+                          align="left"
+                        >
+                          Item Description
+                        </Typography>
+                        <Typography align="left">
+                          {product.data.description}
+                        </Typography>
+                      </Stack>
+                      <Stack justifyContent="flex-start" spacing={2}>
+                        <Typography
+                          className="productInfoText"
+                          align="left"
+                        >
+                          Category
+                        </Typography>
+                        <Typography align="left">
+                          {product.data.category.title}
+                        </Typography>
+                      </Stack>
+                    </CardContent>
+                  </Collapse>
+                </Card>
+              </React.Fragment>
+                :  
+                  null
+                }
+                  </> 
                 ))}
             </div>
             <Pagination
