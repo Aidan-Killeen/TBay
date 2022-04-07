@@ -134,6 +134,13 @@ const Homepage = () => {
           if (result === false) console.log("Backend retrieval failed!");
           else {
             console.log("Retrieved products:", result);
+
+            //remove inactive products from fetched products
+            for (let i = 0; i < result.length; i++) {
+              if (result[i].data.status != "active")
+                delete result[i];
+            }
+            
             for (let index = 0; index < result.length; index++) {
               items.push(
                 <div>
