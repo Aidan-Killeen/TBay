@@ -267,7 +267,7 @@ router.post("/unlist-product", cors(), function (req, res) {
         status: "inactive",
       })
       .then(() => {
-        return res.status(200).send("Unlist Successful!");
+        return res.status(200).send(JSON.stringify("Unlist Successful!"));
       });
   } catch (error) {
     console.log("Error retrieving data!", error);
@@ -287,7 +287,7 @@ router.post("/relist-product", cors(), function (req, res) {
         status: "active",
       })
       .then(() => {
-        return res.status(200).send("Relist Successful!");
+        return res.status(200).send(JSON.stringify("Relist Successful!"));
       });
   } catch (error) {
     console.log("Error retrieving data!", error);

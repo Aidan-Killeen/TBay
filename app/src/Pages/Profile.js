@@ -10,9 +10,9 @@ import {
   CardMedia,
   CardContent,
   Collapse,
+  Button
 } from "@mui/material/";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import Dialog from "../component/deleteDialog";
@@ -35,6 +35,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const Profile = () => {
+
   var items = [];
   const [products, setItems] = useState([
     {
@@ -80,6 +81,31 @@ const Profile = () => {
       handleDialog("", false);
     }
   };
+  const fetchProducts = () => {
+        // Gets all products and filters ones matching logged in username
+        try {
+          fetch("http://localhost:3001/users/product")
+            .then((res) => res.json())
+            .then((result) => {
+              if (result === false) console.log("Backend retrieval failed!");
+              else {
+                console.log("Retrieved products:", result);
+                let items = [];
+                for (let index = 0; index < result.length; index++) {
+                  if (
+                    result[index].data["sellerUserID"] ===
+                    localStorage.getItem("userEmail")
+                  ) {
+                    items.push(result[index]);
+                  }
+                }
+                setItems(items);
+              }
+            });
+          } catch (e) {
+            console.log("Error retrieving result: ", e.message);
+          }
+  }
 
   useEffect(() => {
     // Gets all products and filters ones matching logged in username
@@ -148,6 +174,7 @@ const Profile = () => {
           .then(response => response.json())
           .then((data) => {
             console.log("Unlisted product with ID = " + data); 
+            fetchProducts()
           });
     } catch (e) {
       console.log("Error logging in: ", e.message);
@@ -168,6 +195,7 @@ const Profile = () => {
           .then(response => response.json())
           .then((data) => {
             console.log("Relisted product with ID = " + data); 
+            fetchProducts()
           });
     } catch (e) {
       console.log("Error logging in: ", e.message);
@@ -244,8 +272,13 @@ const Profile = () => {
                                   className="productInfoText productTitle"
                                   gutterBottom
                                 >
-                                  {product.data.title}
+                                {product.data.title}
                                 </Typography>
+                                {product.data.status=="active" ? 
+                                  <Button  variant="contained" onClick={() =>unlistProduct(product.iD)}>Unlist</Button>
+                                :  
+                                  <Button  variant="contained" onClick={() =>relistProduct(product.iD)}>Relist</Button>
+                                }
                                 <IconButton
                                   aria-label="delete"
                                   onClick={() => handleDelete(product)}
@@ -272,8 +305,6 @@ const Profile = () => {
                               </Stack>
                             </Grid>
                           </Grid>
-                          <button onClick={() =>relistProduct(product.iD)}>RELIST PRODUCT</button>
-                          <button onClick={() =>unlistProduct(product.iD)}>UNLIST PRODUCT</button>
                         </CardContent>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                           <CardContent>
@@ -287,6 +318,21 @@ const Profile = () => {
                               <Typography align="left">
                                 {product.data.description}
                               </Typography>
+                              <Typography
+                                className="productInfoText"
+                                align="left"
+                              >
+                                Listing Status
+                              </Typography>
+                              {product.data.status=="active" ? 
+                                  <Typography align="left">
+                                  Listed
+                                  </Typography>
+                                :  
+                                <Typography align="left">
+                                Unlisted
+                                </Typography>                              
+                              }
                             </Stack>
                           </CardContent>
                         </Collapse>
