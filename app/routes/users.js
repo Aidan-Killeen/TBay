@@ -21,6 +21,11 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 var database = firebase.database();
+// Get a reference to the storage service, which is used to create references in your storage bucket
+var storage = firebase.storage();
+// Create a storage reference from our storage service
+var storageRef = storage.ref();
+
 
 router.get("/", cors(), function (req, res, next) {
   res.send("respond with a resource");
@@ -108,13 +113,13 @@ router.get("/product", cors(), function (req, res) {
       .once("value")
       .then((snapshot) => {
         let result = [];
-      snapshot.forEach((child) => {
-        result.push({
-          iD: child.key,
-          data: child.val()
+        snapshot.forEach((child) => {
+          result.push({
+            iD: child.key,
+            data: child.val()
+          });
         });
-      });
-      return res.status(200).send(result);
+        return res.status(200).send(result);
       });
   } catch (error) {
     console.log("Error retrieving data!", error);
@@ -133,24 +138,72 @@ router.post("/post-product", cors(), function (req, res) {
     title: req.body.title,
   };
 
-  // Get a key for a new Post.
-  var newPostKey = firebase.database().ref().child("products").push().key;
-  // Write the new post's data simultaneously in the posts list and the user's post list.
-  var updates = {};
-  updates["/products/" + newPostKey] = postData;
-  try {
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        return res
-          .status(200)
-          .send(JSON.stringify("Post Successful, post ID = " + newPostKey));
+  let imagePath = "";
+  if (postData.image !== null) {
+    let index = 0;
+    try {
+      let postFix = ""
+      if (postData.image.toString().startsWith("data:image/jpeg")) postFix = '.jpg'
+      else if (postData.image.startsWith("data:image/png")) postFix = '.png'
+
+      imagePath = 'products/' + postData.title + '' + index + postFix;
+      var imageRef = storageRef.child(imagePath);
+
+      imageRef.putString(postData.image.toString(), 'data_url').then((snapshot) => {
+        // console.log('Uploaded a data_url string to the following path:', snapshot.metadata);
+        postData.image = imagePath;
+
+        const imgRef = storageRef.child(imagePath);
+        const downloadUrl = imgRef.getDownloadURL();
+        downloadUrl.then(function (url) {
+          // console.log("MY URL " + url)
+          // Get a key for a new Post.
+          postData.image = url;
+          var newPostKey = firebase.database().ref().child("products").push().key;
+          var updates = {};
+          updates["/products/" + newPostKey] = postData;
+
+          try {
+            firebase
+              .database()
+              .ref()
+              .update(updates)
+              .then(() => {
+                return res
+                  .status(200)
+                  .send(JSON.stringify("Post Successful, post ID = " + newPostKey));
+              });
+          } catch (error) {
+            console.log("Error retrieving data!", error);
+            return res.status(200).send(JSON.stringify(false));
+          }
+        })
       });
-  } catch (error) {
-    console.log("Error retrieving data!", error);
-    return res.status(200).send(JSON.stringify(false));
+    } catch (error) {
+      console.log("Error Posting Image!", error)
+      return res.status(404).send(JSON.stringify(false));
+    };
+  }
+  else {
+    var newPostKey = firebase.database().ref().child("products").push().key;
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    postData.image = 'test.jpg'
+    updates["/products/" + newPostKey] = postData;
+    try {
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          return res
+            .status(200)
+            .send(JSON.stringify("Post Successful, post ID = " + newPostKey));
+        });
+    } catch (error) {
+      console.log("Error retrieving data!", error);
+      return res.status(200).send(JSON.stringify(false));
+    }
   }
 });
 
