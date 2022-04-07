@@ -61,10 +61,11 @@ const Homepage = () => {
   }
 
   function filter(items) {
+    setPage(paginator(filtered, 1, 5).page);
     if(inputText === "")
     {
       setFilteredItems(items);
-      console.log(inputText, products, filtered);
+      //console.log(inputText, products, filtered);
     }
     else
     {
@@ -78,9 +79,16 @@ const Homepage = () => {
       }
 
       setFilteredItems(result);
-      console.log(inputText, products, result, filtered);
+      //console.log(inputText, products, result, filtered);
     }
     
+  }
+
+  function enterFunction(e) {
+    if(e.key === 'Enter')
+    {
+      filter(products);
+    }
   }
   var items = [];
   const [page, setPage] = React.useState(1);
@@ -114,7 +122,7 @@ const Homepage = () => {
   ]);
 
   const handleChange = (event, value) => {
-    setPage(paginator(products, value, 1).page);
+    setPage(paginator(filtered, value, 1).page);
   };
 
   useEffect(() => {
@@ -186,7 +194,7 @@ const Homepage = () => {
           <Grid item xs={12}>
             <Box
               className="searchForm"
-              component="form"
+              //component="form"
               sx={{
                 p: "0em 0.5em 0em 0.5em",
                 display: "flex",
@@ -199,6 +207,7 @@ const Homepage = () => {
                 value={inputText}
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search items..."
+                onKeyDown={enterFunction}
                 onChange={inputHandler}
               />
               <IconButton 
