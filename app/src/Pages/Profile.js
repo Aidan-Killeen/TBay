@@ -8,9 +8,10 @@ import {
   Stack,
   Card,
   CardMedia,
+  Chip,
   CardContent,
   Collapse,
-  Button
+  Button,
 } from "@mui/material/";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
@@ -35,7 +36,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const Profile = () => {
-
   var items = [];
   const [products, setItems] = useState([
     {
@@ -82,30 +82,30 @@ const Profile = () => {
     }
   };
   const fetchProducts = () => {
-        // Gets all products and filters ones matching logged in username
-        try {
-          fetch("http://localhost:3001/users/product")
-            .then((res) => res.json())
-            .then((result) => {
-              if (result === false) console.log("Backend retrieval failed!");
-              else {
-                console.log("Retrieved products:", result);
-                let items = [];
-                for (let index = 0; index < result.length; index++) {
-                  if (
-                    result[index].data["sellerUserID"] ===
-                    localStorage.getItem("userEmail")
-                  ) {
-                    items.push(result[index]);
-                  }
-                }
-                setItems(items);
+    // Gets all products and filters ones matching logged in username
+    try {
+      fetch("http://localhost:3001/users/product")
+        .then((res) => res.json())
+        .then((result) => {
+          if (result === false) console.log("Backend retrieval failed!");
+          else {
+            console.log("Retrieved products:", result);
+            let items = [];
+            for (let index = 0; index < result.length; index++) {
+              if (
+                result[index].data["sellerUserID"] ===
+                localStorage.getItem("userEmail")
+              ) {
+                items.push(result[index]);
               }
-            });
-          } catch (e) {
-            console.log("Error retrieving result: ", e.message);
+            }
+            setItems(items);
           }
-  }
+        });
+    } catch (e) {
+      console.log("Error retrieving result: ", e.message);
+    }
+  };
 
   useEffect(() => {
     // Gets all products and filters ones matching logged in username
@@ -166,16 +166,16 @@ const Profile = () => {
         iD: selectedID,
       };
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
       };
       fetch("http://localhost:3001/users/unlist-product", requestOptions)
-          .then(response => response.json())
-          .then((data) => {
-            console.log("Unlisted product with ID = " + data); 
-            fetchProducts()
-          });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Unlisted product with ID = " + data);
+          fetchProducts();
+        });
     } catch (e) {
       console.log("Error logging in: ", e.message);
     }
@@ -187,16 +187,16 @@ const Profile = () => {
         iD: selectedID,
       };
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
       };
       fetch("http://localhost:3001/users/relist-product", requestOptions)
-          .then(response => response.json())
-          .then((data) => {
-            console.log("Relisted product with ID = " + data); 
-            fetchProducts()
-          });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Relisted product with ID = " + data);
+          fetchProducts();
+        });
     } catch (e) {
       console.log("Error logging in: ", e.message);
     }
@@ -272,13 +272,23 @@ const Profile = () => {
                                   className="productInfoText productTitle"
                                   gutterBottom
                                 >
-                                {product.data.title}
+                                  {product.data.title}
                                 </Typography>
-                                {product.data.status=="active" ? 
-                                  <Button  variant="contained" onClick={() =>unlistProduct(product.iD)}>Unlist</Button>
-                                :  
-                                  <Button  variant="contained" onClick={() =>relistProduct(product.iD)}>Relist</Button>
-                                }
+                                {product.data.status == "active" ? (
+                                  <Button
+                                    variant="outlined"
+                                    onClick={() => unlistProduct(product.iD)}
+                                  >
+                                    Archive
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="outlined"
+                                    onClick={() => relistProduct(product.iD)}
+                                  >
+                                    Unarchive
+                                  </Button>
+                                )}
                                 <IconButton
                                   aria-label="delete"
                                   onClick={() => handleDelete(product)}
@@ -293,6 +303,19 @@ const Profile = () => {
                               >
                                 <Typography className="productInfoText productPrice">
                                   {product.data.price + `€`}
+                                  {product.data.status == "active" ? (
+                                    <Chip
+                                      sx={{ ml: 1 }}
+                                      label="Active"
+                                      color="success"
+                                    />
+                                  ) : (
+                                    <Chip
+                                      sx={{ ml: 1 }}
+                                      label="Inactive"
+                                      color="error"
+                                    />
+                                  )}
                                 </Typography>
                                 <ExpandMore
                                   expand={expanded}
@@ -308,7 +331,13 @@ const Profile = () => {
                         </CardContent>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                           <CardContent>
-                            <Stack justifyContent="flex-start" spacing={2}>
+                            <Stack
+                              direction="column"
+                              justifyContent="center"
+                              alignItems="flex-start"
+                              spacing={1}
+                            >
+                              <Chip label={product.data.category.title} />
                               <Typography
                                 className="productInfoText"
                                 align="left"
@@ -318,21 +347,18 @@ const Profile = () => {
                               <Typography align="left">
                                 {product.data.description}
                               </Typography>
+
                               <Typography
                                 className="productInfoText"
                                 align="left"
                               >
                                 Listing Status
                               </Typography>
-                              {product.data.status=="active" ? 
-                                  <Typography align="left">
-                                  Listed
-                                  </Typography>
-                                :  
-                                <Typography align="left">
-                                Unlisted
-                                </Typography>                              
-                              }
+                              {product.data.status == "active" ? (
+                                <Typography align="left">Listed</Typography>
+                              ) : (
+                                <Typography align="left">Unlisted</Typography>
+                              )}
                             </Stack>
                           </CardContent>
                         </Collapse>

@@ -48,7 +48,7 @@ const Homepage = () => {
       paginatedItems = items.slice(offset).slice(0, per_page_items),
       total_pages = Math.ceil(items.length / per_page);
     //console.log(total_pages, items.length, per_page);
-  
+
     return {
       page: page,
       per_page: per_page,
@@ -56,24 +56,22 @@ const Homepage = () => {
       next_page: total_pages > page ? page + 1 : null,
       total: items.length,
       total_pages: total_pages,
-      data: paginatedItems
+      data: paginatedItems,
     };
   }
 
   function filter(items) {
     setPage(paginator(filtered, 1, 5).page);
-    if(input === "")
-    {
+    if (input === "") {
       setFilteredItems(items);
       //console.log(inputText, products, filtered);
-    }
-    else
-    {
+    } else {
       let result = [];
       //input = inputText;
       for (let index = 0; index < items.length; index++) {
-        if (items[index].data["title"].toLowerCase().includes(input.toLowerCase())) 
-        {
+        if (
+          items[index].data["title"].toLowerCase().includes(input.toLowerCase())
+        ) {
           result.push(items[index]);
         }
       }
@@ -81,12 +79,10 @@ const Homepage = () => {
       setFilteredItems(result);
       //console.log(inputText, products, result, filtered);
     }
-    
   }
 
   function enterFunction(e) {
-    if(e.key === 'Enter')
-    {
+    if (e.key === "Enter") {
       filter(products);
     }
   }
@@ -167,7 +163,7 @@ const Homepage = () => {
       console.log("Error retrieving result: ", e.message);
     }
   }, []);
-  let input = ""
+  let input = "";
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -175,7 +171,7 @@ const Homepage = () => {
     setExpanded(!expanded);
   };
 
-  const [inputText,setInputText] = useState("");
+  const [inputText, setInputText] = useState("");
   let inputHandler = (e) => {
     var result = e.target.value.toString();
     setInputText(result);
@@ -212,11 +208,11 @@ const Homepage = () => {
                 onKeyDown={enterFunction}
                 onChange={inputHandler}
               />
-              <IconButton 
-                //type="submit" 
-                aria-label="search" 
+              <IconButton
+                //type="submit"
+                aria-label="search"
                 onClick={() => filter(products)}
-                >
+              >
                 <SearchIcon />
               </IconButton>
             </Box>
@@ -224,115 +220,108 @@ const Homepage = () => {
           <Grid item xs={12} md={12}>
             <div className="container">
               {filtered &&
-              paginator(filtered, page, 5).data.map((product) => (
-                <>
-                {product.data.status=="active" ? 
-                <React.Fragment key={product.iD}>
-                <Card
-                  className="productCard"
-                  sx={{
-                    mt: "2em",
-                    mb: "2em",
-                  }}
-                >
-                  <CardMedia
-                    className="productImage"
-                    component="img"
-                    height="50%"
-                    image={product.data.image}
-                    alt={product.data.title}
-                  />
-                  <CardContent>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <Stack
-                          direction="row"
-                          justifyContent="flex-end"
-                          alignItems="flex-start"
+                paginator(filtered, page, 5).data.map((product) => (
+                  <>
+                    {product.data.status == "active" ? (
+                      <React.Fragment key={product.iD}>
+                        <Card
+                          className="productCard"
+                          sx={{
+                            mt: "2em",
+                            mb: "2em",
+                          }}
                         >
-                          <Typography
-                            className="productInfoText productTitle"
-                            gutterBottom
-                          >
-                            {product.data.title}
-                          </Typography>
-                          <Chip
-                            className="productInfoText productOwnerInfo"
-                            icon={<FaceIcon />}
-                            label={`by ` + product.data.sellerUserID}
-                            variant="outlined"
+                          <CardMedia
+                            className="productImage"
+                            component="img"
+                            height="50%"
+                            image={product.data.image}
+                            alt={product.data.title}
                           />
-                        </Stack>
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Typography className="productInfoText productPrice">
-                            {product.data.price + `€`}
-                          </Typography>
+                          <CardContent>
+                            <Grid container>
+                              <Grid item xs={12}>
+                                <Stack
+                                  direction="row"
+                                  justifyContent="flex-end"
+                                  alignItems="flex-start"
+                                >
+                                  <Typography
+                                    className="productInfoText productTitle"
+                                    gutterBottom
+                                  >
+                                    {product.data.title}
+                                  </Typography>
+                                  <Chip
+                                    className="productInfoText productOwnerInfo"
+                                    icon={<FaceIcon />}
+                                    label={`by ` + product.data.sellerUserID}
+                                    variant="outlined"
+                                  />
+                                </Stack>
+                                <Stack
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                >
+                                  <Typography className="productInfoText productPrice">
+                                    {product.data.price + `€`}
+                                  </Typography>
 
-                          <ExpandMore
-                            expand={expanded}
-                            onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="show more"
-                          >
-                            <ExpandMoreIcon />
-                          </ExpandMore>
-                        </Stack>
-                        <Button
-                          className="buttonMain"
-                          fullWidth
-                          variant="contained"
-                          sx={{ mt: 2 }}
-                          to="#"
-                          onClick={() =>
-                            window.open(
-                              "mailto:" +
-                                product.data.sellerUserID +
-                                "?subject=TBay Purchase inquiry: " +
-                                product.data.title
-                            )
-                          }
-                        >
-                          Contact
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                  <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <Stack justifyContent="flex-start" spacing={2}>
-                        <Typography
-                          className="productInfoText"
-                          align="left"
-                        >
-                          Item Description
-                        </Typography>
-                        <Typography align="left">
-                          {product.data.description}
-                        </Typography>
-                      </Stack>
-                      <Stack justifyContent="flex-start" spacing={2}>
-                        <Typography
-                          className="productInfoText"
-                          align="left"
-                        >
-                          Category
-                        </Typography>
-                        <Typography align="left">
-                          {product.data.category.title}
-                        </Typography>
-                      </Stack>
-                    </CardContent>
-                  </Collapse>
-                </Card>
-              </React.Fragment>
-                :  
-                  null
-                }
-                  </> 
+                                  <ExpandMore
+                                    expand={expanded}
+                                    onClick={handleExpandClick}
+                                    aria-expanded={expanded}
+                                    aria-label="show more"
+                                  >
+                                    <ExpandMoreIcon />
+                                  </ExpandMore>
+                                </Stack>
+                                <Button
+                                  className="buttonMain"
+                                  fullWidth
+                                  variant="contained"
+                                  sx={{ mt: 2 }}
+                                  to="#"
+                                  onClick={() =>
+                                    window.open(
+                                      "mailto:" +
+                                        product.data.sellerUserID +
+                                        "?subject=TBay Purchase inquiry: " +
+                                        product.data.title
+                                    )
+                                  }
+                                >
+                                  Contact
+                                </Button>
+                              </Grid>
+                            </Grid>
+                          </CardContent>
+                          <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <CardContent>
+                              <Stack
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="flex-start"
+                                spacing={1}
+                              >
+                                <Chip label={product.data.category.title} />
+                                <Typography
+                                  className="productInfoText"
+                                  align="left"
+                                >
+                                  Item Description
+                                </Typography>
+                                <Typography align="left">
+                                  {product.data.description}
+                                </Typography>
+                              </Stack>
+                            </CardContent>
+                          </Collapse>
+                        </Card>
+                      </React.Fragment>
+                    ) : null}
+                  </>
                 ))}
             </div>
             <Pagination
