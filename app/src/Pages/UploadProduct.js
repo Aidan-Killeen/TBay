@@ -1,12 +1,7 @@
 import "../Styles/App.css";
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { Button, TextField, Box, Grid, Typography } from "@mui/material/";
 import { Link, useNavigate } from "react-router-dom";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 
 // import Autocomplete from "./TempAutocomplete.js";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -27,14 +22,13 @@ const Input = styled("input")({
 function UploadProduct() {
   let navigate = useNavigate();
   var postedFlag = false;
-  const [category, setCategory] = useState(
-    {
-      title: ""
-    });
-    
+  const [category, setCategory] = useState({
+    title: "",
+  });
+
   function isNumeric(str) {
-    if (typeof str != "string") return false 
-    return !isNaN(str) && !isNaN(parseFloat(str)) 
+    if (typeof str != "string") return false;
+    return !isNaN(str) && !isNaN(parseFloat(str));
   }
 
   const handleSubmit = (event) => {
@@ -43,68 +37,68 @@ function UploadProduct() {
 
     //handle product requirements (required fields)
     if (data.get("productTitle").toString().length < 3) {
-      alert("Title must be more than two characters in length.")
+      alert("Title must be more than two characters in length.");
       console.log("Title must be more than two characters in length.");
       return;
     }
-    if (data.get("productPrice").toString().length < 2 || !isNumeric(data.get("productPrice").toString())) {
-      alert("Must specify a valid product price.")
+    if (
+      data.get("productPrice").toString().length < 2 ||
+      !isNumeric(data.get("productPrice").toString())
+    ) {
+      alert("Must specify a valid product price.");
       console.log("Must specify a product price.");
       return;
     }
-    if (category.title=="") {
-      alert("Must select a category.")
+    if (category.title === "") {
+      alert("Must select a category.");
       console.log("Must select a category.");
       return;
     }
     console.log("Category: ", category);
 
+    try {
+      //console.log(data.get(localStorage.getItem("userID")));
+      var postData = {
+        //category: data.get("category"),
+        category: category.title,
+        description: data.get("productDesc"),
+        //image: data.get("image"),
+        image: "test.jpg",
+        price: data.get("productPrice"),
+        //Hardcoding this until everyone is using the login
+        //sellerUserID: data.get(localStorage.getItem("userID")),
+        //sellerUserID: "John Doe",
+        sellerUserID: localStorage.getItem("userEmail"),
+        title: data.get("productTitle"),
+      };
 
-  try {
-    //console.log(data.get(localStorage.getItem("userID")));
-    var postData = {
-      //category: data.get("category"),
-      category: category.title,
-      description: data.get("productDesc"),
-      //image: data.get("image"),
-      image: "test.jpg",
-      price: data.get("productPrice"),
-      //Hardcoding this until everyone is using the login
-      //sellerUserID: data.get(localStorage.getItem("userID")),
-      //sellerUserID: "John Doe",
-      sellerUserID: localStorage.getItem("userEmail"),
-      title: data.get("productTitle"),
-    };
-    
-    // Simple PUT request with a JSON body using fetch
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postData)
-    };
-    fetch("http://localhost:3001/users/post-product", requestOptions)
-        .then(response => response.json())
+      // Simple PUT request with a JSON body using fetch
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      };
+      fetch("http://localhost:3001/users/post-product", requestOptions)
+        .then((response) => response.json())
         .then((data) => {
-          console.log("Created product with ID = " + data); 
+          console.log("Created product with ID = " + data);
           postedFlag = true;
-          navigate("/")
+          navigate("/");
         });
-  } catch (e) {
-    console.log("Error logging in: ", e.message);
-  }
-};
-
-
-  function submitCategory(value){
-    if(value!==null){
-      setCategory({
-        title: value
-      })
+    } catch (e) {
+      console.log("Error logging in: ", e.message);
     }
-    else{
+  };
+
+  function submitCategory(value) {
+    if (value !== null) {
       setCategory({
-        title: ""
-      })
+        title: value,
+      });
+    } else {
+      setCategory({
+        title: "",
+      });
     }
   }
 
@@ -116,7 +110,7 @@ function UploadProduct() {
         </Box>
       </Grid>
     */}
-      <Grid item xs={12} sm={12} md={6} >
+      <Grid item xs={12} sm={12} md={6}>
         <Box
           sx={{
             mt: "1em",
@@ -137,6 +131,7 @@ function UploadProduct() {
                 id="contained-button-file"
                 multiple
                 type="file"
+                required
               />
               <Button
                 className="photosUploadButton"
@@ -145,7 +140,7 @@ function UploadProduct() {
                 component="span"
               >
                 <UploadIcon />
-                Add photos
+                Add Image
               </Button>
             </label>
             <TextField
@@ -168,7 +163,7 @@ function UploadProduct() {
                 label="Price"
               />
             </FormControl>
-            
+
             <Autocomplete
               clearOnEscape
               id="category"
