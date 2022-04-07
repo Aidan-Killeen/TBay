@@ -48,7 +48,7 @@ const Homepage = () => {
       paginatedItems = items.slice(offset).slice(0, per_page_items),
       total_pages = Math.ceil(items.length / per_page);
     console.log(total_pages, items.length, per_page);
-  
+
     return {
       page: page,
       per_page: per_page,
@@ -56,7 +56,7 @@ const Homepage = () => {
       next_page: total_pages > page ? page + 1 : null,
       total: items.length,
       total_pages: total_pages,
-      data: paginatedItems
+      data: paginatedItems,
     };
   }
   var items = [];
@@ -162,8 +162,8 @@ const Homepage = () => {
           <Grid item xs={12} md={12}>
             <div className="container">
               {products &&
-              paginator(products, page, 5).data.map((product) => (
-                // products.map((product) => (
+                paginator(products, page, 5).data.map((product) => (
+                  // products.map((product) => (
                   <React.Fragment key={product.iD}>
                     <Card
                       className="productCard"
@@ -240,7 +240,13 @@ const Homepage = () => {
                       </CardContent>
                       <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent>
-                          <Stack justifyContent="flex-start" spacing={2}>
+                          <Stack
+                            direction="column"
+                            justifyContent="flex-start"
+                            alignItems="flex-start"
+                            spacing={1}
+                          >
+                            <Chip label={product.data.category.title} />
                             <Typography
                               className="productInfoText"
                               align="left"
@@ -251,30 +257,26 @@ const Homepage = () => {
                               {product.data.description}
                             </Typography>
                           </Stack>
-                          <Stack justifyContent="flex-start" spacing={2}>
-                            <Typography
-                              className="productInfoText"
-                              align="left"
-                            >
-                              Category
-                            </Typography>
-                            <Typography align="left">
-                              {product.data.category.title}
-                            </Typography>
-                          </Stack>
                         </CardContent>
                       </Collapse>
                     </Card>
                   </React.Fragment>
                 ))}
             </div>
+          </Grid>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="stretch"
+            spacing={2}
+          >
             <Pagination
               count={paginator(products, page, 5).total_pages}
               page={paginator(products, page, 5).page}
               onChange={handleChange}
-              color="success"
+              color="primary"
             />
-          </Grid>
+          </Stack>
         </Box>
       </Grid>
     </div>

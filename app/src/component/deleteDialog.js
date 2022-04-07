@@ -24,7 +24,7 @@ function Dialog({ message, onDialog, nameProduct }) {
           left: "50%",
           transform: "translate(-50%,-50%)",
           background: "white",
-          padding: "20px",
+          padding: "2em",
           borderRadius: "10px",
         }}
       >

@@ -8,6 +8,7 @@ import {
   Stack,
   Card,
   CardMedia,
+  Chip,
   CardContent,
   Collapse,
 } from "@mui/material/";
@@ -234,7 +235,13 @@ const Profile = () => {
                         </CardContent>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                           <CardContent>
-                            <Stack justifyContent="flex-start" spacing={2}>
+                            <Stack
+                              direction="column"
+                              justifyContent="flex-start"
+                              alignItems="flex-start"
+                              spacing={1}
+                            >
+                              <Chip label={product.data.category.title} />
                               <Typography
                                 className="productInfoText"
                                 align="left"
