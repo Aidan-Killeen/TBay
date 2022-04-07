@@ -14,6 +14,7 @@ import {
   CardMedia,
   Chip,
   Collapse,
+  Pagination,
 } from "@mui/material";
 
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
@@ -40,7 +41,27 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const Homepage = () => {
+  function paginator(items, current_page, per_page_items) {
+    let page = current_page || 1,
+      per_page = per_page_items || 2,
+      offset = (page - 1) * per_page,
+      paginatedItems = items.slice(offset).slice(0, per_page_items),
+      total_pages = Math.ceil(items.length / per_page);
+    console.log(total_pages, items.length, per_page);
+  
+    return {
+      page: page,
+      per_page: per_page,
+      pre_page: page - 1 ? page - 1 : null,
+      next_page: total_pages > page ? page + 1 : null,
+      total: items.length,
+      total_pages: total_pages,
+      data: paginatedItems
+    };
+  }
   var items = [];
+  const [page, setPage] = React.useState(1);
+
   const [products, setItems] = useState([
     {
       iD: "",
@@ -54,6 +75,10 @@ const Homepage = () => {
       },
     },
   ]);
+
+  const handleChange = (event, value) => {
+    setPage(paginator(products, value, 1).page);
+  };
 
   useEffect(() => {
     // adjust dependencies to your needs
@@ -137,7 +162,8 @@ const Homepage = () => {
           <Grid item xs={12} md={12}>
             <div className="container">
               {products &&
-                products.map((product) => (
+              paginator(products, page, 5).data.map((product) => (
+                // products.map((product) => (
                   <React.Fragment key={product.iD}>
                     <Card
                       className="productCard"
@@ -225,12 +251,29 @@ const Homepage = () => {
                               {product.data.description}
                             </Typography>
                           </Stack>
+                          <Stack justifyContent="flex-start" spacing={2}>
+                            <Typography
+                              className="productInfoText"
+                              align="left"
+                            >
+                              Category
+                            </Typography>
+                            <Typography align="left">
+                              {product.data.category.title}
+                            </Typography>
+                          </Stack>
                         </CardContent>
                       </Collapse>
                     </Card>
                   </React.Fragment>
                 ))}
             </div>
+            <Pagination
+              count={paginator(products, page, 5).total_pages}
+              page={paginator(products, page, 5).page}
+              onChange={handleChange}
+              color="success"
+            />
           </Grid>
         </Box>
       </Grid>
