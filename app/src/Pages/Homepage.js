@@ -47,7 +47,7 @@ const Homepage = () => {
       offset = (page - 1) * per_page,
       paginatedItems = items.slice(offset).slice(0, per_page_items),
       total_pages = Math.ceil(items.length / per_page);
-    console.log(total_pages, items.length, per_page);
+    //console.log(total_pages, items.length, per_page);
   
     return {
       page: page,
@@ -59,10 +59,47 @@ const Homepage = () => {
       data: paginatedItems
     };
   }
+
+  function filter(items) {
+    if(inputText === "")
+    {
+      setFilteredItems(items);
+      console.log(inputText, products, filtered);
+    }
+    else
+    {
+      let result = [];
+      //input = inputText;
+      for (let index = 0; index < items.length; index++) {
+        if (items[index].data["title"].toLowerCase().includes(inputText.toLowerCase())) 
+        {
+          result.push(items[index]);
+        }
+      }
+
+      setFilteredItems(result);
+      console.log(inputText, products, result, filtered);
+    }
+    
+  }
   var items = [];
   const [page, setPage] = React.useState(1);
 
   const [products, setItems] = useState([
+    {
+      iD: "",
+      data: {
+        category: "",
+        description: "",
+        image: "",
+        price: "",
+        sellerUserID: "",
+        title: "",
+      },
+    },
+  ]);
+
+  const [filtered, setFilteredItems] = useState([
     {
       iD: "",
       data: {
@@ -115,6 +152,7 @@ const Homepage = () => {
               );
             }
             setItems(result);
+            setFilteredItems(result);
           }
         });
     } catch (e) {
@@ -126,6 +164,13 @@ const Homepage = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const [inputText,setInputText] = useState("");
+  let inputHandler = (e) => {
+    //convert input text to lower case
+    var result = e.target.value.toString();
+    setInputText(result);
   };
 
   return (
@@ -151,18 +196,24 @@ const Homepage = () => {
             >
               <InputBase
                 className="searchFormText"
+                value={inputText}
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search items..."
+                onChange={inputHandler}
               />
-              <IconButton type="submit" aria-label="search">
+              <IconButton 
+                //type="submit" 
+                aria-label="search" 
+                onClick={() => filter(products)}
+                >
                 <SearchIcon />
               </IconButton>
             </Box>
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="container">
-              {products &&
-              paginator(products, page, 5).data.map((product) => (
+              {filtered &&
+              paginator(filtered, page, 5).data.map((product) => (
                 // products.map((product) => (
                   <React.Fragment key={product.iD}>
                     <Card
@@ -269,8 +320,8 @@ const Homepage = () => {
                 ))}
             </div>
             <Pagination
-              count={paginator(products, page, 5).total_pages}
-              page={paginator(products, page, 5).page}
+              count={paginator(filtered, page, 5).total_pages}
+              page={paginator(filtered, page, 5).page}
               onChange={handleChange}
               color="success"
             />
