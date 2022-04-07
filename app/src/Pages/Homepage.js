@@ -136,12 +136,16 @@ const Homepage = () => {
             console.log("Retrieved products:", result);
 
             //remove inactive products from fetched products
-            for (let i = 0; i < result.length; i++) {
-              if (result[i].data.status != "active")
-                delete result[i];
-            }
-            
+            let result2 = [];
             for (let index = 0; index < result.length; index++) {
+              if (result[index].data.status === "active") 
+              {
+                result2.push(result[index]);
+              }
+            }
+            //console.log("Retrieved products:", result2);
+            
+            for (let index = 0; index < result2.length; index++) {
               items.push(
                 <div>
                   <Stack
@@ -166,8 +170,8 @@ const Homepage = () => {
                 </div>
               );
             }
-            setItems(result);
-            setFilteredItems(result);
+            setItems(result2);
+            setFilteredItems(result2);
           }
         });
     } catch (e) {
