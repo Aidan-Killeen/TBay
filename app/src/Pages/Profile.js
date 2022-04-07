@@ -46,6 +46,7 @@ const Profile = () => {
         price: "",
         sellerUserID: "",
         title: "",
+        status: "",
       },
     },
   ]);
@@ -131,6 +132,46 @@ const Profile = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const unlistProduct = (selectedID) => {
+    try {
+      var postData = {
+        iD: selectedID,
+      };
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      };
+      fetch("http://localhost:3001/users/unlist-product", requestOptions)
+          .then(response => response.json())
+          .then((data) => {
+            console.log("Unlisted product with ID = " + data); 
+          });
+    } catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
+  };
+
+  const relistProduct = (selectedID) => {
+    try {
+      var postData = {
+        iD: selectedID,
+      };
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      };
+      fetch("http://localhost:3001/users/relist-product", requestOptions)
+          .then(response => response.json())
+          .then((data) => {
+            console.log("Relisted product with ID = " + data); 
+          });
+    } catch (e) {
+      console.log("Error logging in: ", e.message);
+    }
   };
 
   return (
@@ -231,6 +272,8 @@ const Profile = () => {
                               </Stack>
                             </Grid>
                           </Grid>
+                          <button onClick={() =>relistProduct(product.iD)}>RELIST PRODUCT</button>
+                          <button onClick={() =>unlistProduct(product.iD)}>UNLIST PRODUCT</button>
                         </CardContent>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                           <CardContent>

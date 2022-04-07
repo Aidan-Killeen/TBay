@@ -89,6 +89,7 @@ function UploadProduct() {
         price: data.get("productPrice"),
         sellerUserID: localStorage.getItem("userEmail"),
         title: data.get("productTitle"),
+        status: "active",
       };
 
       // Simple PUT request with a JSON body using fetch

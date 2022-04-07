@@ -136,6 +136,7 @@ router.post("/post-product", cors(), function (req, res) {
     price: req.body.price,
     sellerUserID: req.body.sellerUserID,
     title: req.body.title,
+    status: req.body.status,
   };
 
   let imagePath = "";
@@ -238,6 +239,7 @@ router.post("/update-product", cors(), function (req, res) {
     price: req.body.price,
     sellerUserID: req.body.sellerUserID,
     title: req.body.title,
+    status: req.body.status,
   };
   try {
     firebase
@@ -252,5 +254,45 @@ router.post("/update-product", cors(), function (req, res) {
     return res.status(200).send(JSON.stringify(false));
   }
 });
+
+//Unlist a product
+router.post("/unlist-product", cors(), function (req, res) {
+  var iD = req.body.iD;
+
+  try {
+    firebase
+      .database()
+      .ref("/products/" + iD)
+      .update({
+        status: "inactive",
+      })
+      .then(() => {
+        return res.status(200).send("Unlist Successful!");
+      });
+  } catch (error) {
+    console.log("Error retrieving data!", error);
+    return res.status(200).send(JSON.stringify(false));
+  }
+})
+
+//Relist a product
+router.post("/relist-product", cors(), function (req, res) {
+  var iD = req.body.iD;
+
+  try {
+    firebase
+      .database()
+      .ref("/products/" + iD)
+      .update({
+        status: "active",
+      })
+      .then(() => {
+        return res.status(200).send("Relist Successful!");
+      });
+  } catch (error) {
+    console.log("Error retrieving data!", error);
+    return res.status(200).send(JSON.stringify(false));
+  }
+})
 
 module.exports = router;
