@@ -1,24 +1,13 @@
-## TBay ##
+# TBay #
 Digital marketplace aimed at students attending Trinity College Dublin.
 
-## HOW TO RUN ##
-# Change directory to backend
-cd back-end
+# HOW TO RUN #
+## May have to install concurrently library,
+## which allows multiple commands to be run concurrently
+npm i -g concurrently
 
-# Install dependencies
-npm i
-
-# Run the backend project
-npm start
-
-# Change directory to TBay folder
-cd ..
-
-# Change directory to frontend
+## Change directory to app ##
 cd app
 
-# Install dependencies
-npm i
-
-# Run the frontend project
+## Run frontend & backend concurrently
 npm start

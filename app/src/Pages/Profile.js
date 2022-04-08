@@ -286,7 +286,7 @@ const Profile = () => {
                                     variant="outlined"
                                     onClick={() => relistProduct(product.iD)}
                                   >
-                                    Unarchive
+                                    Relist
                                   </Button>
                                 )}
                                 <IconButton
